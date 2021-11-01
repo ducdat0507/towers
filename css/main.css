@@ -1,0 +1,177 @@
+body {
+    background-color: greenyellow;
+
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    font-size: 12px;
+
+    user-select: none;
+    overflow: hidden;
+    max-width: 100vw;
+    max-height: 100vh;
+}
+
+button {
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    font-size: 12px;
+}
+
+.fullscreen {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100vh;
+    width: 100vw;
+}
+
+.window, .tabbtn, .upgbtn {
+    background: #373a3ddf;
+    color: #ffffff;
+    border: 1px solid #848a91;
+    border-radius: 5px;
+    box-shadow: 0 0 10px #0000007f;
+    padding: 10px;
+    margin: 5px;
+    text-align: center;
+    transition: opacity .3s linear;
+}
+.tabbtn:hover, .upgbtn:hover {
+    background: #626669df;
+}
+.tabbtn:active, .upgbtn:active {
+    background: #222325df;
+}
+
+#curbox {
+    padding: 3px;
+}
+
+#curbox > * {
+    width: 180px;
+    padding: 5px 6px;
+    margin: 2px;
+    text-align: right;
+    position: relative;
+    overflow: hidden;
+}
+
+#famebox {
+    background: #1f1f7fdf;
+    border-color: #7f7fff;
+}
+#famebox::before {
+    position: absolute;
+    left: 5px;
+    content: "Fame";
+}
+
+.hidden {
+    opacity: 0;
+}
+
+#tipbox {
+    position: absolute;
+    top: 50px;
+    left: calc(50% - 215px);
+    width: 400px;
+}
+
+#tipbox > :first-child {
+    font-size: 16px;
+}
+#tipbox > :nth-child(3) {
+    margin-top: 8px;
+    opacity: .5;
+    font-size: 11px;
+}
+
+#menu {
+    position: absolute;
+    width: max(80%, 400px);
+    height: 50%;
+    bottom: calc(-50% - 10px);
+    left: calc(50% - max(40%, 200px));
+    transition: bottom .4s ease-out, opacity .3s linear;
+}
+#menu.expanded {
+    bottom: 5px;
+    transition: bottom .6s ease-out;
+}
+
+#tablist {
+    position: absolute;
+    top: -44px; left: 0; right: 0;
+    padding: 2px;
+    transition: top .4s;
+}
+#menu.expanded #tablist {
+    top: -25px;
+}
+
+.tabbtn {
+    position: relative;
+    padding: 5px 6px;
+    margin: 0px 3px;
+}
+.tabbtn:last-child {
+    position: absolute;
+    right: 3px;
+}
+#menu.expanded .tabbtn {
+    border-radius: 4px 4px 0 0;
+}
+
+.tabbtn.active {
+    top: -2px;
+    background: #0baf26;
+    border-color: #0baf26;
+    box-shadow: 0 0 10px #0000007f, 0 0 20px #17d136;
+    border-bottom: none;
+}
+.tabbtn.active:last-child {
+    transform: translateY(2px);
+}
+.tabbtn.active:hover {
+    background: #17d136;
+    border-color: #17d136;
+}
+.tabbtn.active:active {
+    background: #0b8d21;
+    border-color: #0b8d21;
+}
+
+#tabbox {
+    border-top: 3px solid #0b8d21;
+    box-shadow: 0 0px 10px #0000007f;
+}
+
+
+#tabbox {
+    position: absolute;
+    top: 0; bottom: 0; left: 0; right: 0;
+    margin: 0;
+}
+
+#upglist {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+}
+
+.upgbtn {
+    position: relative;
+    height: 100px;
+    padding: 5px 8px 25px 8px;
+}
+
+.upgbtn :first-child {
+    font-weight: bold;
+}
+.upgbtn :nth-child(3) {
+    font-size: 11px;
+}
+.upgbtn :nth-child(4) {
+    position: absolute;
+    bottom: 0; left: 0; right: 0;
+    padding: 5px;
+    background-color: #1f1f7fdf;
+    border-radius: 0 0 4px 4px;
+}
