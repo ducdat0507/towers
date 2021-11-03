@@ -2,7 +2,9 @@
 
 // ------------------------------------------------------------------------------------------ Initialization
 
-let canvas, ctx, tipbox, famebox, menu, tablist, tabbox;
+let canvas, ctx, tipbox, famebox, menu, touchdiv, tablist, tabbox;
+
+let touchPos = null;
 
 function init() {
     canvas = document.getElementById("canvas");
@@ -10,6 +12,7 @@ function init() {
     tipbox = document.getElementById("tipbox");
     famebox = document.getElementById("famebox");
     menu = document.getElementById("menu");
+    touchdiv = document.getElementById("touchdiv");
     tablist = document.getElementById("tablist");
     tabbox = document.getElementById("tabbox");
 
@@ -32,6 +35,17 @@ function init() {
         } else if (tips[game.tipStage].disClick) {
             game.tipShown = false;
             hideTip();
+        }
+    }
+
+    touchdiv.ontouchstart = (e) => {
+        touchPos = [e.pageX, e.pageY];
+    }
+    touchdiv.ontouchend = (e) => {
+        let tPos = [e.pageX - touchPos[0], e.pageY - touchPos[1]];
+        if (tPos[0] ** 2 + tPos[1] ** 2 > 100) {
+            if (Math.abs(tPos[0]) > Math.abs(tPos[1])) movePlayer([Math.sign(tPos[0]), 0]);
+            else movePlayer([0, -Math.sign(tPos[1])]);
         }
     }
     
