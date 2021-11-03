@@ -140,26 +140,61 @@ button {
 }
 
 #tabbox {
+    position: absolute;
+    top: 0; bottom: 0; left: 0; right: 0;
+    margin: 0;
+    overflow: auto;
+
     border-top: 3px solid #0b8d21;
     box-shadow: 0 0px 10px #0000007f;
 }
 
-
-#tabbox {
-    position: absolute;
-    top: 0; bottom: 0; left: 0; right: 0;
-    margin: 0;
+#upgbox {
+    width: 100%;
 }
 
-#upglist {
+.upgcategory {
+    position: relative;
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    padding: 28px 0 5px 0;
+    transition: padding .3s;
 }
+
+.upgcategory.collapsed {
+    padding: 28px 0 0 0;
+}
+
+.upgcategory > :first-child {
+    position: absolute;
+    top: 5px;
+    left: 5px;
+    right: 5px;
+    padding-bottom: 5px;
+
+    text-align: left;
+    border-bottom: 1px solid #848a91;
+    transition: padding .3s;
+}
+.upgcategory.collapsed > :first-child {
+    padding-left: 20px;
+}
+
+.upgcategory.collapsed > .upgbtn {
+    height: 0;
+    margin: 0 5px;
+    padding: 0 8px;
+    border: 0 solid transparent;
+    opacity: 0;
+}
+
 
 .upgbtn {
     position: relative;
     height: 100px;
     padding: 5px 8px 25px 8px;
+    overflow: hidden;
+    transition: height .3s, margin .3s, padding .3s, border .3s, opacity .3s;
 }
 
 .upgbtn :first-child {

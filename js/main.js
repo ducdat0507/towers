@@ -133,7 +133,7 @@ function movePlayer(offset) {
             return t < 1000;
         })
     } else if (isLevelCompleted()) {
-        let gain = player[1].mul(upgEffect("f1")).pow(upgEffect("f1_1"));
+        let gain = player[1].pow(upgEffect("f1_2")).mul(upgEffect("f1")).pow(upgEffect("f1_1"));
         game.points = game.points.add(gain);
         game.pointsTotal = game.pointsTotal.add(gain);
         famebox.innerHTML = format(game.points, 0);
@@ -141,7 +141,7 @@ function movePlayer(offset) {
         if (game.pointsTotal.gte(1500)) menu.classList.remove("hidden");
         addAnimator(function (t) {
             if (!this.gen && t >= 500) {
-                game.levelBase = makeLevel(game.upgrades.f2 + 1);
+                game.levelBase = makeLevel(game.upgrades.f2.toNumber() + 1);
                 game.level = fixLevel(JSON.parse(JSON.stringify(game.levelBase)));
                 this.gen = true;
             }
@@ -157,7 +157,7 @@ function movePlayer(offset) {
 
 function makeLevel(diff) {
 
-    let startAmount = EN(10);
+    let startAmount = upgEffect("f2_1");
 
     let level = [[[["player", startAmount]]]];
 
@@ -167,14 +167,14 @@ function makeLevel(diff) {
     let towers = Math.random() * Math.log2(towersFactor + 1) + 1 + towersFactor;
 
     let tHeight = 0;
-    let tHeightFactor = 9 + diff * .5;
+    let tHeightFactor = 9 + diff * diff * .5;
 
     for (let x = 0; x < towers; x++) {
         let tower = [];
 
         while (Math.random() < tHeightFactor) {
             tHeight++;
-            tHeightFactor /= 3;
+            tHeightFactor /= 4;
         }
         tHeightFactor *= 1 + Math.sqrt(diff / 100);
 
@@ -188,7 +188,7 @@ function makeLevel(diff) {
         while (t < 100000) {
 
             tower[p].push(["enemy", startAmount.floor()]);
-            startAmount = startAmount.mul(Math.random() * .5 + 1);
+            startAmount = startAmount.mul(upgEffect("f2_2").mul(Math.random()).add(1));
             
             if (p + 1 >= tower.length) break;
             

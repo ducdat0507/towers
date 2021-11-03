@@ -128,9 +128,9 @@ function setToZero(array, height) {
 
 function format(num, precision=2, small=false) {
     if (ExpantaNum.isNaN(num)) return "NaN"
-    let precision2 = Math.max(3, precision) // for e
-    let precision3 = Math.max(4, precision) // for F, G, H
-    let precision4 = Math.max(6, precision) // for J, K
+    let precision2 = Math.max(4, precision) // for e
+    let precision3 = Math.max(6, precision) // for F, G, H
+    let precision4 = Math.max(8, precision) // for J, K
     num = new ExpantaNum(num)
     let array = num.array
     if (num.abs().lt(1e-308)) return (0).toFixed(precision)
@@ -139,11 +139,11 @@ function format(num, precision=2, small=false) {
     if (num.lt("0.0001")) { return format(num.rec(), precision) + "⁻¹" }
     else if (num.lt(1)) return regularFormat(num, precision + (small ? 2 : 0))
     else if (num.lt(1000)) return regularFormat(num, precision)
-    else if (num.lt(1e9)) return commaFormat(num)
+    else if (num.lt(1e12)) return commaFormat(num)
     else if (num.lt("10^^5")) { // 1e9 ~ 1F5
         let bottom = arraySearch(array, 0)
         let rep = arraySearch(array, 1)-1
-        if (bottom >= 1e9) {
+        if (bottom >= 1e12) {
             bottom = Math.log10(bottom)
             rep += 1
         }
@@ -152,7 +152,7 @@ function format(num, precision=2, small=false) {
         let p = bottom < 1000 ? precision2 : 0
         return "e".repeat(rep) + regularFormat(m, p) + "e" + commaFormat(e)
     }
-    else if (num.lt("10^^1000000")) { // 1F5 ~ F1,000,000
+    else if (num.lt("10^^1000000000")) { // 1F5 ~ F1,000,000
         let pol = polarize(array)
         return regularFormat(pol.bottom, precision3) + "F" + commaFormat(pol.top)
     }

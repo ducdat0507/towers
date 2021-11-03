@@ -42,4 +42,13 @@ let tips = [
             return game.pointsTotal.gte(1500);
         }
     },
+    {
+        title: "Buy Max Unlocked!",
+        desc: "Hold an upgrade to buy the most that you can buy at once - plus, only the last one is actually priced!",
+        desc2: "(Click this box to dismiss)",
+        disClick: true,
+        req() { 
+            return game.pointsTotal.gte(1e64);
+        }
+    },
 ]
