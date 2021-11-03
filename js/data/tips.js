@@ -57,7 +57,7 @@ let tips = [
         desc2: "(Click this box to dismiss)",
         disClick: true,
         req() { 
-            return game.upg.p2_3.gt(0);
+            return game.upg.f2_3.gt(0);
         }
     },
 ]
