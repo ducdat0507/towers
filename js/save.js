@@ -24,9 +24,9 @@ function getStartGame() {
 
 function deepCopy(target, source) {
     for (item in source) {
-        if (typeof target[item] == "object") target[item] = deepCopy(target[item], source[item]);
-        else if (target[item] === undefined) target[item] = source[item];
-        else if (target[item] instanceof EN) target[item] = EN(target[item]);
+        if (target[item] === undefined) target[item] = source[item];
+        else if (source[item] instanceof EN) target[item] = EN(target[item]);
+        else if (typeof source[item] == "object") target[item] = deepCopy(target[item], source[item]);
     }
     return target;
 }
