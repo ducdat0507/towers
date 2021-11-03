@@ -6,8 +6,16 @@ let tabs = {
         content: `
             <div id="upglist"></div>
         `,
-        onshow() {
-            makeUpgGUI();
+        subtabs: {
+            points: {
+                title: "Fame",
+            },
+            loot: {
+                title: "Loot",
+            },
+        },
+        onshow(subtab) {
+            makeUpgGUI(subtab);
         }
     },
     options: {

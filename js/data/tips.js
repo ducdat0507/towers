@@ -51,4 +51,13 @@ let tips = [
             return game.pointsTotal.gte(1e64);
         }
     },
+    {
+        title: "Loot Unlocked!",
+        desc: "Loot are spawned on the playfield as yellow and gives their own currency when taken. They also do not require having a higher Power, nor increase yours.",
+        desc2: "(Click this box to dismiss)",
+        disClick: true,
+        req() { 
+            return game.pointsTotal.gte(1e64);
+        }
+    },
 ]

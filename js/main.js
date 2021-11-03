@@ -2,7 +2,7 @@
 
 // ------------------------------------------------------------------------------------------ Initialization
 
-let canvas, ctx, tipbox, famebox, menu, touchdiv, tablist, tabbox;
+let canvas, ctx, tipbox, famebox, lootbox, menu, touchdiv, tablist, tabbox, subtablist, tabcontent;
 
 let touchPos = null;
 
@@ -11,10 +11,13 @@ function init() {
     ctx = canvas.getContext("2d", { alpha: false });
     tipbox = document.getElementById("tipbox");
     famebox = document.getElementById("famebox");
+    lootbox = document.getElementById("lootbox");
     menu = document.getElementById("menu");
     touchdiv = document.getElementById("touchdiv");
     tablist = document.getElementById("tablist");
     tabbox = document.getElementById("tabbox");
+    subtablist = document.getElementById("subtablist");
+    tabcontent = document.getElementById("tabcontent");
 
     initTabs();
 
@@ -59,6 +62,10 @@ function init() {
     if (game.pointsTotal.gt(0)) {
         famebox.innerHTML = format(game.points);
         famebox.classList.remove("hidden");
+    }
+    if (game.upgrades.f2_3.gt(0)) {
+        lootbox.innerHTML = format(game.loot, 0);
+        lootbox.classList.remove("hidden");
     }
     if (game.pointsTotal.gte(1500)) menu.classList.remove("hidden");
 
@@ -126,6 +133,13 @@ function movePlayer(offset) {
             tile[0][1] = tile[0][1].add(player[1]);
             playerFail = true;
         }
+    } else if (tile[0][0] == "loot") {
+        let gain = tile[0][1].mul(upgEffect("f3"));
+        game.loot = game.loot.add(gain);
+        game.lootTotal = game.lootTotal.add(gain);
+        lootbox.innerHTML = format(game.loot, 0);
+        tile.shift();
+        tile.unshift(player);
     } else {
         tile.unshift(player);
     }
@@ -147,7 +161,7 @@ function movePlayer(offset) {
             return t < 1000;
         })
     } else if (isLevelCompleted()) {
-        let gain = player[1].pow(upgEffect("f1_2")).mul(upgEffect("f1")).pow(upgEffect("f1_1"));
+        let gain = player[1].pow(upgEffect("f1_2")).mul(upgEffect("f1")).mul(upgEffect("l1")).pow(upgEffect("f1_1")).pow(upgEffect("l1_1"));
         game.points = game.points.add(gain);
         game.pointsTotal = game.pointsTotal.add(gain);
         famebox.innerHTML = format(game.points, 0);
@@ -200,9 +214,17 @@ function makeLevel(diff) {
         let t = 0;
 
         while (t < 100000) {
+            
+            let chance = 1;
 
-            tower[p].push(["enemy", startAmount.floor()]);
-            startAmount = startAmount.mul(upgEffect("f2_2").mul(Math.random()).add(1));
+            if (upgEffect("f2_3").gt(Math.random() * chance)) {
+                let loot = EN(Math.random() * 100 + 100).mul(upgEffect("l2"));
+                tower[p].push(["loot", loot]);
+            } else {
+                tower[p].push(["enemy", startAmount.floor()]);
+                startAmount = startAmount.mul(upgEffect("f2_2").mul(Math.random()).add(1));
+            }
+
             
             if (p + 1 >= tower.length) break;
             

@@ -8,7 +8,7 @@ body {
     overflow: hidden;
     max-width: 100vw;
     max-height: 100vh;
-    
+
     touch-action: none;
 }
 
@@ -25,7 +25,7 @@ button {
     width: 100vw;
 }
 
-.window, .tabbtn, .upgbtn {
+.window, .tabbtn, .upgbtn, ::-webkit-scrollbar-thumb {
     background: #373a3ddf;
     color: #ffffff;
     border: 1px solid #848a91;
@@ -36,18 +36,42 @@ button {
     text-align: center;
     transition: opacity .3s linear;
 }
-.tabbtn:hover, .upgbtn:hover {
+
+.tabbtn:hover, .upgbtn:hover, ::-webkit-scrollbar-thumb:hover {
     background: #626669df;
 }
-.tabbtn:active, .upgbtn:active {
+.tabbtn:active, .upgbtn:active, ::-webkit-scrollbar-thumb:active {
     background: #222325df;
 }
 
+::-webkit-scrollbar {
+    width: 10px;
+    padding: 2px;
+    background: #222325;
+}
+::-webkit-scrollbar:disabled {
+    background: #22232500;
+}
+::-webkit-scrollbar-thumb {
+    margin: 2px;
+    border-radius: 3px;
+    border: 2px solid #222325;
+    box-shadow: inset 0 0 0 1px #848a91;
+}
+::-webkit-scrollbar-thumb:disabled {
+    background: #22232500;
+    border: none;
+    box-shadow: none;
+}
+
 #curbox {
+    position: absolute;
+    top: 0; left: 0; right: 0;
     padding: 3px;
 }
 
 #curbox > * {
+    display: inline-block;
     width: 180px;
     padding: 5px 6px;
     margin: 2px;
@@ -64,6 +88,16 @@ button {
     position: absolute;
     left: 5px;
     content: "Fame";
+}
+
+#lootbox {
+    background: #5f5f0fdf;
+    border-color: #afaf1f;
+}
+#lootbox::before {
+    position: absolute;
+    left: 5px;
+    content: "Loot";
 }
 
 .hidden {
@@ -109,12 +143,27 @@ button {
     top: -25px;
 }
 
+#subtablist {
+    padding: 10px 10px 0 10px;
+    margin: 0 0 0 0;
+    max-height: 23px;
+    min-height: 23px;
+    border-bottom: 2px solid #0baf26;
+    box-shadow: inset 0 -15px 10px -10px #0000003f;
+    overflow: hidden;
+    text-align: left;
+    z-index: 2;
+}
+
 .tabbtn {
     position: relative;
     padding: 5px 6px;
     margin: 0px 3px;
 }
-.tabbtn:last-child {
+#subtablist > .tabbtn {
+    margin: 0 3px -3px 0;
+}
+#tablist > .tabbtn:last-child {
     position: absolute;
     right: 3px;
 }
@@ -126,10 +175,11 @@ button {
     top: -2px;
     background: #0baf26;
     border-color: #0baf26;
-    box-shadow: 0 0 10px #0000007f, 0 0 20px #17d136;
+    box-shadow: 0 0 20px #000000af, 0 0 10px #17d136;
+    z-index: 1;
     border-bottom: none;
 }
-.tabbtn.active:last-child {
+#tablist > .tabbtn.active:last-child {
     transform: translateY(2px);
 }
 .tabbtn.active:hover {
@@ -143,12 +193,23 @@ button {
 
 #tabbox {
     position: absolute;
+    display: flex;
+    flex-flow: column;
+    flex: 1 1;
     top: 0; bottom: 0; left: 0; right: 0;
     margin: 0;
-    overflow: auto;
+    padding: 0;
+    z-index: 1;
+    overflow: hidden;
 
     border-top: 3px solid #0b8d21;
     box-shadow: 0 0px 10px #0000007f;
+}
+
+#tabcontent {
+    padding: 10px 0 10px 10px;
+    overflow-x: hidden;
+    overflow-y: scroll;
 }
 
 #upgbox {
@@ -160,6 +221,7 @@ button {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
     padding: 28px 0 5px 0;
+    font-size: 12px;
     transition: padding .3s;
 }
 

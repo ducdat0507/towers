@@ -4,6 +4,8 @@ function getStartGame() {
     let start = {
         points: EN(0),
         pointsTotal: EN(0),
+        loot: EN(0),
+        lootTotal: EN(0),
 
         tipStage: 0,
         tipShown: true,
