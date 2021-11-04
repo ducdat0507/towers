@@ -66,7 +66,7 @@ function showImportPopup() {
             "Save Preview - This save has:\n" + format(sGame.points, 0) + " Fame";
         if (sGame.lootTotal.gt(0)) msg += "\n" + format(sGame.loot, 0) + " Loot";
         if (!confirm(msg)) return;
-        localStorage.setItem("tower", btoa(sGame));
+        localStorage.setItem("tower", btoa(JSON.stringify(sGame)));
         location.reload();
     } catch (e) {
         console.error(e);
