@@ -46,3 +46,29 @@ function load() {
 function save() {
     localStorage.setItem("tower", btoa(JSON.stringify(game)));
 }
+
+function exportSave() {
+    navigator.clipboard.writeText(btoa(JSON.stringify(game)));
+}
+
+function showResetPopup() {
+    if (confirm("Do you want to reset the game? This can not be undone!")) {
+        localStorage.removeItem("tower");
+        location.reload();
+    }
+}
+function showImportPopup() {
+    let data = prompt("Please enter save string:");
+    if (!data) return;
+    try {
+        let sGame = deepCopy(JSON.parse(atob(data)), getStartGame());
+        let msg = "Do you want to import this save? This will override your current save!\n\n" +
+            "Save Preview - This save has:\n" + format(sGame.points, 0) + " Fame";
+        if (sGame.lootTotal.gt(0)) msg += "\n" + format(sGame.loot, 0) + " Loot";
+        if (!confirm(msg)) return;
+        localStorage.setItem("tower", btoa(sGame));
+        location.reload();
+    } catch (e) {
+        console.error(e);
+    }
+}

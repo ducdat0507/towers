@@ -87,11 +87,24 @@ function updateUpgGUI() {
             if (data.disp == "effect") eff = format(data.effect(level));
             else if (data.disp == "level") eff = "Level " + format(level);
     
+            btn.disabled = level.gte(data.max);
+
             btn.innerHTML = `
                 <div>${data.title}</div>
                 <div>${eff}</div>
                 <div>${data.desc}</div>
                 <div>${level.gte(data.max) ? "Maxed out" : format(data.cost(level))}</div>
+            `;
+        } else if (data.tease && (!data.teaseReq || game.upgrades[data.teaseReq[0]].gte(data.teaseReq[1]))) {
+            btn.style.display = "";
+            upgCategories[data.category].style.display = "";
+
+            btn.disabled = true;
+
+            btn.innerHTML = `
+                <div></div><div></div>
+                <div>${data.tease}</div>
+                <div>Locked</div>
             `;
         } else {
             btn.style.display = "none";

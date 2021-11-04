@@ -23,5 +23,25 @@ let tabs = {
         content: `
             Nothing's here yet...
         `,
+        subtabs: {
+            general: {
+                title: "General",
+                content: `
+                    <div class="upgcategory">
+                        <div>Save Management</div>
+                        <button onclick="save()">Manual Save</button>
+                        <button onclick="exportSave()">Export Save</button>
+                        <button onclick="showImportPopup()">Import Save</button>
+                        <button onclick="showResetPopup()">RESET GAME</button>
+                    </div>
+                `,
+            },
+            display: {
+                title: "Display",
+            },
+            control: {
+                title: "Controls",
+            },
+        },
     },
 }
