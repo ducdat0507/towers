@@ -143,13 +143,13 @@ function format(num, precision=2, small=false) {
     else if (num.lt("10^^5")) { // 1e9 ~ 1F5
         let bottom = arraySearch(array, 0)
         let rep = arraySearch(array, 1)-1
-        if (bottom >= 1e12) {
+        if (bottom >= 1e7) {
             bottom = Math.log10(bottom)
             rep += 1
         }
         let m = 10**(bottom-Math.floor(bottom))
         let e = Math.floor(bottom)
-        let p = bottom < 1000 ? precision2 : 0
+        let p = bottom < 1000 ? precision2 : precision2 - Math.floor(Math.log10(bottom)) + 2;
         return "e".repeat(rep) + regularFormat(m, p) + "e" + commaFormat(e)
     }
     else if (num.lt("10^^1000000000")) { // 1F5 ~ F1,000,000

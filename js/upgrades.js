@@ -33,16 +33,19 @@ function makeUpgGUI (type) {
         }
         btn.onmousedown = () => {
             if (game.tipStage >= 6) upgTimeout = setTimeout(() => {
-                let level = game.upgrades[upg];
-                let inv = data.inv(game[data.costType]).min(data.max ? data.max.sub(1) : Infinity);
-                console.log(level.toNumber() + " " + inv.toNumber());
-                if (inv.gte(level)) {
-                    let cost = data.cost(inv);
-                    game[data.costType] = game[data.costType].sub(cost);
-                    game.upgrades[upg] = inv.add(1);
-                    famebox.innerHTML = format(game.points, 0);
-                    lootbox.innerHTML = format(game.loot, 0);
-                    updateUpgGUI();
+                if (data.isBool) btn.onclick();
+                else {
+                    let level = game.upgrades[upg];
+                    let inv = data.inv(game[data.costType]).min(data.max ? data.max.sub(1) : Infinity);
+                    console.log(level.toNumber() + " " + inv.toNumber());
+                    if (inv.gte(level)) {
+                        let cost = data.cost(inv);
+                        game[data.costType] = game[data.costType].sub(cost);
+                        game.upgrades[upg] = inv.add(1);
+                        famebox.innerHTML = format(game.points, 0);
+                        lootbox.innerHTML = format(game.loot, 0);
+                        updateUpgGUI();
+                    }
                 }
             }, 500)
         }
@@ -52,9 +55,9 @@ function makeUpgGUI (type) {
         btn.onclick = () => {
             let level = game.upgrades[upg];
             let cost = data.cost(level);
-            if ((!data.max || level.lt(data.max)) && game[data.costType].gte(cost)) {
+            if ((!data.isBool || !level) && (!data.max || level.lt(data.max)) && game[data.costType].gte(cost)) {
                 game[data.costType] = game[data.costType].sub(cost);
-                game.upgrades[upg] = game.upgrades[upg].add(1);
+                game.upgrades[upg] = data.isBool ? true : game.upgrades[upg].add(1);
                 famebox.innerHTML = format(game.points, 0);
                 lootbox.innerHTML = format(game.loot, 0);
                 updateUpgGUI();
@@ -79,7 +82,7 @@ function updateUpgGUI() {
         let btn = upgButtons[upg];
         let level = game.upgrades[upg];
 
-        if (!data.req || game.upgrades[data.req[0]].gte(data.req[1])) {
+        if (!data.req || (upgrades[data.req[0]].isBool ? game.upgrades[data.req[0]] : game.upgrades[data.req[0]].gte(data.req[1]))) {
             btn.style.display = "";
             upgCategories[data.category].style.display = "";
             let eff = "";
@@ -87,15 +90,15 @@ function updateUpgGUI() {
             if (data.disp == "effect") eff = format(data.effect(level));
             else if (data.disp == "level") eff = "Level " + format(level);
     
-            btn.disabled = level.gte(data.max);
+            btn.disabled = data.isBool ? level : level.gte(data.max);
 
             btn.innerHTML = `
                 <div>${data.title}</div>
                 <div>${eff}</div>
                 <div>${data.desc}</div>
-                <div>${level.gte(data.max) ? "Maxed out" : format(data.cost(level))}</div>
+                <div>${data.isBool ? (level ? "Bought" : format(data.cost(level))) : (level.gte(data.max) ? "Maxed out" : format(data.cost(level)))}</div>
             `;
-        } else if (data.tease && (!data.teaseReq || game.upgrades[data.teaseReq[0]].gte(data.teaseReq[1]))) {
+        } else if (data.tease && (!data.teaseReq || (upgrades[data.teaseReq[0]].isBool ? game.upgrades[data.teaseReq[0]] : game.upgrades[data.teaseReq[0]].gte(data.teaseReq[1])))) {
             btn.style.display = "";
             upgCategories[data.category].style.display = "";
 

@@ -126,7 +126,7 @@ function movePlayer(offset) {
         tile.unshift(player);
     } else if (tile[0][0] == "enemy") {
         if (player[1].gte(tile[0][1])) {
-            player[1] = player[1].add(tile[0][1]);
+            player[1] = player[1].add(tile[0][1].pow(upgEffect("l3_1").add(1)));
             tile.shift();
             tile.unshift(player);
         } else {
@@ -135,9 +135,15 @@ function movePlayer(offset) {
         }
     } else if (tile[0][0] == "loot") {
         let gain = tile[0][1].mul(upgEffect("f3"));
+        if (game.upgrades.f3_1) gain = gain.mul(upgEffect("f1_1"));
+        if (game.upgrades.f3_2) gain = gain.mul(upgEffect("f1_2"));
         game.loot = game.loot.add(gain);
         game.lootTotal = game.lootTotal.add(gain);
         lootbox.innerHTML = format(game.loot, 0);
+        let oldPoints = EN(game.points);
+        game.points = game.points.mul(gain.pow(upgEffect("l3_3")));
+        game.pointsTotal = game.pointsTotal.add(game.points.sub(oldPoints));
+        famebox.innerHTML = format(game.points, 0);
         tile.shift();
         tile.unshift(player);
     } else {
@@ -178,6 +184,8 @@ function movePlayer(offset) {
             canvasDirty = true;
             return t < 1000;
         })
+    } else if (game.upgrades.l3 && game.level[pPos[0] + offset[0]].length == 1) {
+        game.levelBase = fixLevel(JSON.parse(JSON.stringify(game.level)));
     }
 
     canvasDirty = true;
@@ -218,11 +226,11 @@ function makeLevel(diff) {
             let chance = 1;
 
             if (upgEffect("f2_3").gt(Math.random() * chance)) {
-                let loot = EN(Math.random() * 100 + 100).mul(upgEffect("l2"));
+                let loot = EN(Math.random()).mul(upgEffect("l2_2")).add(upgEffect("l2_1")).mul(upgEffect("l2"));
                 tower[p].push(["loot", loot]);
             } else {
                 tower[p].push(["enemy", startAmount.floor()]);
-                startAmount = startAmount.mul(upgEffect("f2_2").mul(Math.random()).add(1));
+                startAmount = startAmount.mul(upgEffect("f2_2").mul(Math.random()).add(1)).pow(upgEffect("l3_1").add(1).pow(upgEffect("l3_2")));
             }
 
             

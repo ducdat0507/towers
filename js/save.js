@@ -16,7 +16,7 @@ function getStartGame() {
     }
 
     for (upg in upgrades) {
-        start.upgrades[upg] = EN(0);
+        start.upgrades[upg] = upgrades[upg].isBool ? false : EN(0);
     }
 
     return start;
