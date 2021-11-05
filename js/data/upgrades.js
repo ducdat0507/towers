@@ -141,7 +141,7 @@ let upgrades = {
     },
     "l2": {
         category: "Loot",
-        title: "Loot Mutiplier",
+        title: "Loot Multiplier",
         desc: "Increase amount of Loot that can be spawned by ×2.",
         disp(x) { return "×" + format(this.effect(x), 0); },
         costType: "loot",
@@ -196,7 +196,7 @@ let upgrades = {
         category: "Abilities",
         title: "Enemy Absorb Factor",
         desc: "x% of Absorb Bonus affect Enemy Growth Factor.",
-        max: EN(100),
+        max: EN(99),
         req: ["l3"],
         disp(x) { return format(this.effect(x).mul(100), 0) + "%"; },
         costType: "loot",
