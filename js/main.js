@@ -24,10 +24,10 @@ function init() {
     document.body.onresize = (e) => { canvasDirty = true; }
     document.body.onkeydown = (e) => {
         if (game.tipStage >= 2) {
-                 if (e.key == "w" || e.key == "ArrowUp") movePlayer([0, 1]);
-            else if (e.key == "s" || e.key == "ArrowDown") movePlayer([0, -1]);
-            else if (e.key == "d" || e.key == "ArrowRight") movePlayer([1, 0]);
-            else if (e.key == "a" || e.key == "ArrowLeft") movePlayer([-1, 0]);
+                 if (["w", "W", "ArrowUp"].includes(e.key)) movePlayer([0, 1]);
+            else if (["s", "S", "ArrowDown"].includes(e.key)) movePlayer([0, -1]);
+            else if (["d", "D", "ArrowRight"].includes(e.key)) movePlayer([1, 0]);
+            else if (["a", "A", "ArrowLeft"].includes(e.key)) movePlayer([-1, 0]);
         }
     }
     tipbox.onclick = (e) => {
@@ -54,8 +54,10 @@ function init() {
     
     load();
 
-    if (!game.level) {
+    if (!game.level || isLevelCompleted()) {
         game.levelBase = makeLevel(1);
+        game.level = fixLevel(JSON.parse(JSON.stringify(game.levelBase)));
+    } else if (!getPlayerPos()) {
         game.level = fixLevel(JSON.parse(JSON.stringify(game.levelBase)));
     }
     
@@ -67,6 +69,10 @@ function init() {
         lootbox.innerHTML = format(game.loot, 0);
         lootbox.classList.remove("hidden");
     }
+    if (game.upgrades.l3_4) {
+        brickbox.innerHTML = format(game.bricks, 0);
+        brickbox.classList.remove("hidden");
+    }
     if (game.pointsTotal.gte(1500)) menu.classList.remove("hidden");
 
     now = Date.now();
@@ -75,6 +81,13 @@ function init() {
     if (game.tipShown) showTip();
 
     console.log("Loaded");
+}
+
+function makeAddEffect(elem, diff) {
+    elem.classList.remove("addEffect");
+    elem.offsetWidth;
+    elem.setAttribute("diff", diff);
+    elem.classList.add("addEffect");
 }
 
 // ------------------------------------------------------------------------------------------ Tower Logic
@@ -134,16 +147,20 @@ function movePlayer(offset) {
             playerFail = true;
         }
     } else if (tile[0][0] == "loot") {
-        let gain = tile[0][1].mul(upgEffect("f3"));
+        let gain = tile[0][1].mul(upgEffect("f3")).mul(upgEffect("b2"));
         if (game.upgrades.f3_1) gain = gain.mul(upgEffect("f1_1"));
         if (game.upgrades.f3_2) gain = gain.mul(upgEffect("f1_2"));
         game.loot = game.loot.add(gain);
         game.lootTotal = game.lootTotal.add(gain);
         lootbox.innerHTML = format(game.loot, 0);
+        makeAddEffect(lootbox, "+" + format(gain, 0));
+
         let oldPoints = EN(game.points);
         game.points = game.points.mul(gain.pow(upgEffect("l3_3")));
         game.pointsTotal = game.pointsTotal.add(game.points.sub(oldPoints));
         famebox.innerHTML = format(game.points, 0);
+        if (game.points.neq(oldPoints)) makeAddEffect(famebox, "×" + format(game.points.div(oldPoints), 0));
+
         tile.shift();
         tile.unshift(player);
     } else {
@@ -167,12 +184,33 @@ function movePlayer(offset) {
             return t < 1000;
         })
     } else if (isLevelCompleted()) {
-        let gain = player[1].pow(upgEffect("f1_2")).mul(upgEffect("f1")).mul(upgEffect("l1")).pow(upgEffect("f1_1")).pow(upgEffect("l1_1"));
-        game.points = game.points.add(gain);
-        game.pointsTotal = game.pointsTotal.add(gain);
+        let gain = player[1].pow(upgEffect("f1_2")).mul(upgEffect("f1")).mul(upgEffect("l1")).pow(upgEffect("f1_1")).pow(upgEffect("l1_1")).pow(upgEffect("b1"));
+        if (game.upgrades.l3_6) {
+            let oldPoints = game.points;
+            game.points = game.points.mul(gain).max(gain);
+            game.pointsTotal = game.pointsTotal.add(game.points.sub(oldPoints));
+            makeAddEffect(famebox, "×" + format(gain, 0));
+        } else {
+            game.points = game.points.add(gain);
+            game.pointsTotal = game.pointsTotal.add(gain);
+            makeAddEffect(famebox, "+" + format(gain, 0));
+        }
+        
         famebox.innerHTML = format(game.points, 0);
         famebox.classList.remove("hidden");
         if (game.pointsTotal.gte(1500)) menu.classList.remove("hidden");
+
+        if (game.upgrades.l3_4) {
+            let bricks = 0;
+            for (tower of game.level) bricks += tower.length;
+            if (game.upgrades.b3.gt(0)) bricks = player[1].max(1e10).log10().log10().pow(upgEffect("b3")).mul(bricks);
+            if (game.upgrades.b3_1.gt(0)) bricks = game.upgrades.f2.add(1).pow(upgEffect("b3_1")).mul(bricks);
+            game.bricks = game.bricks.add(bricks);
+            game.bricksTotal = game.bricksTotal.add(bricks);
+            brickbox.innerHTML = format(game.bricks, 0);
+            makeAddEffect(brickbox, "+" + format(bricks, 0));
+        }
+
         addAnimator(function (t) {
             if (!this.gen && t >= 500) {
                 game.levelBase = makeLevel(game.upgrades.f2.toNumber() + 1);

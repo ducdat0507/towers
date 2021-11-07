@@ -60,4 +60,13 @@ let tips = [
             return game.upgrades.f2_3.gt(0);
         }
     },
+    {
+        title: "Bricks Unlocked!",
+        desc: "You'll now bulldoze towers when you complete a level, which will give you Bricks based on how large the level is. Brick Upgrades' buy max don't work like other upgrades - all upgrades will be priced!",
+        desc2: "(Click this box to dismiss)",
+        disClick: true,
+        req() { 
+            return game.upgrades.l3_4.gt(0);
+        }
+    },
 ]

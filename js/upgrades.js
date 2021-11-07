@@ -36,15 +36,28 @@ function makeUpgGUI (type) {
                 if (data.isBool) btn.onclick();
                 else {
                     let level = game.upgrades[upg];
-                    let inv = data.inv(game[data.costType]).min(data.max ? data.max.sub(1) : Infinity);
-                    console.log(level.toNumber() + " " + inv.toNumber());
-                    if (inv.gte(level)) {
-                        let cost = data.cost(inv);
-                        game[data.costType] = game[data.costType].sub(cost);
-                        game.upgrades[upg] = inv.add(1);
-                        famebox.innerHTML = format(game.points, 0);
-                        lootbox.innerHTML = format(game.loot, 0);
-                        updateUpgGUI();
+                    if (data.invSum) {
+                        let inv = data.inv(level, game[data.costType]).min(data.max ? data.max.sub(level) : Infinity);
+                        if (inv.gt(0)) {
+                            let cost = data.invSum(level, inv);
+                            game[data.costType] = game[data.costType].sub(cost).max(0);
+                            game.upgrades[upg] = inv.add(level);
+                            famebox.innerHTML = format(game.points, 0);
+                            lootbox.innerHTML = format(game.loot, 0);
+                            brickbox.innerHTML = format(game.bricks, 0);
+                            updateUpgGUI();
+                        }
+                    } else {
+                        let inv = data.inv(game[data.costType]).min(data.max ? data.max.sub(1) : Infinity);
+                        if (inv.gte(level)) {
+                            let cost = data.cost(inv);
+                            if (data.costType != "points" || !game.upgrades.l3_5) game[data.costType] = game[data.costType].sub(cost).max(0);
+                            game.upgrades[upg] = inv.add(1);
+                            famebox.innerHTML = format(game.points, 0);
+                            lootbox.innerHTML = format(game.loot, 0);
+                            brickbox.innerHTML = format(game.bricks, 0);
+                            updateUpgGUI();
+                        }
                     }
                 }
             }, 500)
@@ -56,10 +69,11 @@ function makeUpgGUI (type) {
             let level = game.upgrades[upg];
             let cost = data.cost(level);
             if ((!data.isBool || !level) && (!data.max || level.lt(data.max)) && game[data.costType].gte(cost)) {
-                game[data.costType] = game[data.costType].sub(cost);
+                if (data.costType != "points" || !game.upgrades.l3_5) game[data.costType] = game[data.costType].sub(cost).max(0);
                 game.upgrades[upg] = data.isBool ? true : game.upgrades[upg].add(1);
                 famebox.innerHTML = format(game.points, 0);
                 lootbox.innerHTML = format(game.loot, 0);
+                brickbox.innerHTML = format(game.bricks, 0);
                 updateUpgGUI();
             };
         };

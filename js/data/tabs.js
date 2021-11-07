@@ -13,6 +13,9 @@ let tabs = {
             loot: {
                 title: "Loot",
             },
+            bricks: {
+                title: "Bricks",
+            },
         },
         onshow(subtab) {
             makeUpgGUI(subtab);
@@ -38,10 +41,38 @@ let tabs = {
             },
             display: {
                 title: "Display",
+                content: `
+                    <div class="upgcategory" id="worldthemediv">
+                        <div>World Themes</div>
+                    </div>
+                `,
             },
             control: {
                 title: "Controls",
             },
         },
+        onshow(subtab) {
+            if (subtab == "display") {
+                let worldthemediv = document.getElementById("worldthemediv");
+                let btns = {};
+                for (let theme in worldThemes) {
+                    let data = worldThemes[theme];
+                    let btn = document.createElement("button");
+                    btn.innerHTML = data.title;
+
+                    btn.onclick = () => {
+                        btns[game.options.worldTheme].disabled = false;
+                        game.options.worldTheme = theme;
+                        btns[theme].disabled = true;
+                        canvasDirty = true;
+                    }
+
+                    btn.disabled = game.options.worldTheme == theme;
+
+                    worldthemediv.appendChild(btn);
+                    btns[theme] = btn;
+                }
+            }
+        }
     },
 }

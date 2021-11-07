@@ -6,13 +6,19 @@ function getStartGame() {
         pointsTotal: EN(0),
         loot: EN(0),
         lootTotal: EN(0),
+        bricks: EN(0),
+        bricksTotal: EN(0),
 
         tipStage: 0,
         tipShown: true,
         level: null,
         levelBase: null,
 
-        upgrades: {}
+        upgrades: {},
+
+        options: {
+            worldTheme: "day",
+        }
     }
 
     for (upg in upgrades) {

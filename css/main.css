@@ -83,7 +83,20 @@ button {
     margin: 2px;
     text-align: right;
     position: relative;
-    overflow: hidden;
+}
+
+#curbox > *::after {
+    position: absolute;
+    right: 6px;
+    top: 15px;
+    font-size: 11px;
+    content: attr(diff);
+}
+
+#curbox > *.addEffect::after {
+    top: 25px;
+    opacity: 0;
+    transition: top  1s linear, opacity 1s linear;
 }
 
 #famebox {
@@ -104,6 +117,16 @@ button {
     position: absolute;
     left: 5px;
     content: "Loot";
+}
+
+#brickbox {
+    background: #5a322ddf;
+    border-color: #ae766e;
+}
+#brickbox::before {
+    position: absolute;
+    left: 5px;
+    content: "Bricks";
 }
 
 .hidden {
@@ -213,9 +236,8 @@ button {
 }
 
 #tabcontent {
-    padding: 10px 0 10px 10px;
+    padding: 10px;
     overflow-x: hidden;
-    overflow-y: scroll;
     touch-action: pan-y;
 }
 
