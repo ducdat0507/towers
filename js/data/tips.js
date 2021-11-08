@@ -66,7 +66,7 @@ let tips = [
         desc2: "(Click this box to dismiss)",
         disClick: true,
         req() { 
-            return game.upgrades.l3_4.gt(0);
+            return game.upgrades.l3_4;
         }
     },
 ]
