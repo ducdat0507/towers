@@ -86,6 +86,7 @@ function makeUpgGUI (type) {
 
 function updateUpgGUI() {
     subtabButtons.loot.style.display = game.upgrades.f2_3.gt(0) ? "" : "none";
+    subtabButtons.bricks.style.display = game.upgrades.l3_4 ? "" : "none";
 
     for (let cat in upgCategories) {
         let div = upgCategories[cat];
