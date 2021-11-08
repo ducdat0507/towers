@@ -139,7 +139,7 @@ function movePlayer(offset) {
         tile.unshift(player);
     } else if (tile[0][0] == "enemy") {
         if (player[1].gte(tile[0][1])) {
-            player[1] = player[1].add(tile[0][1].pow(upgEffect("l3_1").add(1)));
+            player[1] = player[1].add(tile[0][1].pow(upgEffect("l3_1").add(1)).pow(upgEffect("b4").add(1)));
             tile.shift();
             tile.unshift(player);
         } else {

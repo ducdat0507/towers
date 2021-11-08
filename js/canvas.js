@@ -19,7 +19,9 @@ function updateCanvas() {
     let ground = Math.floor(Math.max(height * (.75 - canvasUp * .3), 80 * pPos[1] + height * (.5 - canvasUp * .25) + 45) + canvasOffset[1]);
     ctx.fillStyle = theme.groundFill;
     ctx.fillRect(0, ground, width, height);
+    let lWidth = game.level.length * 180 + 20;
     let offset = Math.floor(wCenter - game.level.length * 90 + 90 - canvasOffset[0]);
+    if (lWidth > width) offset = Math.floor((pPos[0] / (game.level.length - 1)) * (width - lWidth + 10) + 90 - canvasOffset[0]);
 
     let x = 0;
     for (tower of game.level) {

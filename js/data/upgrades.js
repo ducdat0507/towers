@@ -295,4 +295,18 @@ let upgrades = {
         invSum(x, y) { return EN.sumGeometricSeries(y, 100000, 1.2, x) },
         effect(x) { return EN.mul(0.05, x); },
     },
+    "b4": {
+        category: "Abilities",
+        title: "Absorb Bonus II",
+        desc: "Gain an extra ^x of enemies' Power when killed.",
+        max: EN(1000),
+        req: ["f2", 199],
+        tease: "Unlocks at Realm Level 200",
+        disp(x) { return "^" + format(this.effect(x)); },
+        costType: "bricks",
+        cost(x) { return EN(1e9).mul(EN.pow(1.1, x)); },
+        inv(x, y) { return EN.affordGeometricSeries(y, 1e9, 1.1, x) },
+        invSum(x, y) { return EN.sumGeometricSeries(y, 1e9, 1.1, x) },
+        effect(x) { return EN.mul(0.01, x); },
+    },
 }
