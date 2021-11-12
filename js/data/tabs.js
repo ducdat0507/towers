@@ -61,6 +61,18 @@ let tabs = {
             control: {
                 title: "Controls",
             },
+            about: {
+                title: "About",
+                content: `
+                    <div class="title">Towers of Googology</div>
+                    <div class="subtitle">Defeat enemies and grow your towers - incremental style!</div>
+                    <br/>
+                    <div>created by ducdat0507</div>
+                    <div class="subtitle">
+                        <a href="https://ducdat0507.github.io">Back to home page</a>
+                    </div>
+                `,
+            },
         },
         onshow(subtab) {
             if (subtab == "display") {

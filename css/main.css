@@ -50,6 +50,16 @@ button {
     padding: 5px 6px;
 }
 
+a {
+    color: #0baf26;
+}
+a:hover {
+    color: #17d136;
+}
+a:active {
+    color: #0b8d21;
+}
+
 ::-webkit-scrollbar {
     width: 10px;
     padding: 2px;
@@ -302,4 +312,12 @@ button {
     padding: 5px;
     background-color: #1f1f7fdf;
     border-radius: 0 0 4px 4px;
+}
+
+.title {
+    margin-top: 25px;
+    font-size: 16px;
+}
+.subtitle {
+    font-size: 11px;
 }
