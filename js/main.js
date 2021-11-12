@@ -139,7 +139,8 @@ function movePlayer(offset) {
         tile.unshift(player);
     } else if (tile[0][0] == "enemy") {
         if (player[1].gte(tile[0][1])) {
-            player[1] = player[1].add(tile[0][1].pow(upgEffect("l3_1").add(1)).pow(upgEffect("b4").add(1)));
+            if (game.upgrades.l3_7) player[1] = player[1].mul(tile[0][1].pow(upgEffect("l3_1").add(1)).pow(upgEffect("b4").add(1)));
+            else player[1] = player[1].add(tile[0][1].pow(upgEffect("l3_1").add(1)).pow(upgEffect("b4").add(1)));
             tile.shift();
             tile.unshift(player);
         } else {
@@ -205,6 +206,8 @@ function movePlayer(offset) {
             for (tower of game.level) bricks += tower.length;
             if (game.upgrades.b3.gt(0)) bricks = player[1].max(1e10).log10().log10().pow(upgEffect("b3")).mul(bricks);
             if (game.upgrades.b3_1.gt(0)) bricks = game.upgrades.f2.add(1).pow(upgEffect("b3_1")).mul(bricks);
+            if (game.upgrades.b3_2.gt(0)) bricks = game.points.max("ee10").iteratedlog(10, EN(3)).pow(upgEffect("b3_2")).mul(bricks);
+            if (game.upgrades.b3_3.gt(0)) bricks = game.loot.max(1e10).log10().log10().pow(upgEffect("b3_3")).mul(bricks);
             game.bricks = game.bricks.add(bricks);
             game.bricksTotal = game.bricksTotal.add(bricks);
             brickbox.innerHTML = format(game.bricks, 0);
