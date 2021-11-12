@@ -21,10 +21,21 @@ let tabs = {
             makeUpgGUI(subtab);
         }
     },
+    grimoire: {
+        title: "Grimoire",
+        content: `
+            Coming soon...
+        `,
+        subtabs: {
+            ritual: {
+                title: "The Ritual",
+            },
+        },
+    },
     options: {
         title: "Options",
         content: `
-            Nothing's here yet...
+            Coming soon...
         `,
         subtabs: {
             general: {

@@ -79,6 +79,7 @@ function init() {
     gameLoop();
 
     if (game.tipShown) showTip();
+    updateGUI();
 
     console.log("Loaded");
 }
@@ -88,6 +89,10 @@ function makeAddEffect(elem, diff) {
     elem.offsetWidth;
     elem.setAttribute("diff", diff);
     elem.classList.add("addEffect");
+}
+
+function updateGUI() {
+    tabButtons.grimoire.style.display = game.upgrades.b4_3 ? "" : "none";
 }
 
 // ------------------------------------------------------------------------------------------ Tower Logic
@@ -151,10 +156,17 @@ function movePlayer(offset) {
         let gain = tile[0][1].mul(upgEffect("f3")).mul(upgEffect("b2"));
         if (game.upgrades.f3_1) gain = gain.mul(upgEffect("f1_1"));
         if (game.upgrades.f3_2) gain = gain.mul(upgEffect("f1_2"));
-        game.loot = game.loot.add(gain);
-        game.lootTotal = game.lootTotal.add(gain);
+        if (game.upgrades.b4_2) {
+            let oldLoot = game.loot;
+            game.loot = game.loot.mul(gain).max(gain);
+            game.lootTotal = game.lootTotal.add(game.loot.sub(oldLoot));
+            makeAddEffect(lootbox, "×" + format(gain, 0));
+        } else {
+            game.loot = game.loot.add(gain);
+            game.lootTotal = game.lootTotal.add(gain);
+            makeAddEffect(lootbox, "+" + format(gain, 0));
+        }
         lootbox.innerHTML = format(game.loot, 0);
-        makeAddEffect(lootbox, "+" + format(gain, 0));
 
         let oldPoints = EN(game.points);
         game.points = game.points.mul(gain.pow(upgEffect("l3_3")));
@@ -208,6 +220,10 @@ function movePlayer(offset) {
             if (game.upgrades.b3_1.gt(0)) bricks = game.upgrades.f2.add(1).pow(upgEffect("b3_1")).mul(bricks);
             if (game.upgrades.b3_2.gt(0)) bricks = game.points.max("ee10").iteratedlog(10, EN(3)).pow(upgEffect("b3_2")).mul(bricks);
             if (game.upgrades.b3_3.gt(0)) bricks = game.loot.max(1e10).log10().log10().pow(upgEffect("b3_3")).mul(bricks);
+            if (game.upgrades.b3_4.gt(0)) bricks = upgEffect("f1_1").pow(upgEffect("b3_4")).mul(bricks);
+            if (game.upgrades.b3_5.gt(0)) bricks = upgEffect("f1_2").pow(upgEffect("b3_5")).mul(bricks);
+            if (game.upgrades.b3_6.gt(0)) bricks = upgEffect("l2_1").pow(upgEffect("b3_6")).mul(bricks);
+            if (game.upgrades.b3_7.gt(0)) bricks = upgEffect("l2_2").pow(upgEffect("b3_7")).mul(bricks);
             game.bricks = game.bricks.add(bricks);
             game.bricksTotal = game.bricksTotal.add(bricks);
             brickbox.innerHTML = format(game.bricks, 0);

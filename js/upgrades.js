@@ -2,6 +2,10 @@ let upgTimeout = 0;
 let upgButtons = {};
 let upgCategories = {};
 
+function isUpgPriced(data) {
+    return (data.costType != "points" || !game.upgrades.l3_5) && (data.costType != "loot" || !game.upgrades.b4_1);
+}
+
 function makeUpgGUI (type) {
     let upglist = document.getElementById("upglist");
 
@@ -31,6 +35,7 @@ function makeUpgGUI (type) {
 
         function update() {
         }
+
         btn.onmousedown = () => {
             if (game.tipStage >= 6) upgTimeout = setTimeout(() => {
                 if (data.isBool) btn.onclick();
@@ -51,7 +56,7 @@ function makeUpgGUI (type) {
                         let inv = data.inv(game[data.costType]).min(data.max ? data.max.sub(1) : Infinity);
                         if (inv.gte(level)) {
                             let cost = data.cost(inv);
-                            if (data.costType != "points" || !game.upgrades.l3_5) game[data.costType] = game[data.costType].sub(cost).max(0);
+                            if (isUpgPriced(data)) game[data.costType] = game[data.costType].sub(cost).max(0);
                             game.upgrades[upg] = inv.add(1);
                             famebox.innerHTML = format(game.points, 0);
                             lootbox.innerHTML = format(game.loot, 0);
@@ -69,7 +74,7 @@ function makeUpgGUI (type) {
             let level = game.upgrades[upg];
             let cost = data.cost(level);
             if ((!data.isBool || !level) && (!data.max || level.lt(data.max)) && game[data.costType].gte(cost)) {
-                if (data.costType != "points" || !game.upgrades.l3_5) game[data.costType] = game[data.costType].sub(cost).max(0);
+                if (isUpgPriced(data)) game[data.costType] = game[data.costType].sub(cost).max(0);
                 game.upgrades[upg] = data.isBool ? true : game.upgrades[upg].add(1);
                 famebox.innerHTML = format(game.points, 0);
                 lootbox.innerHTML = format(game.loot, 0);
@@ -86,7 +91,9 @@ function makeUpgGUI (type) {
 
 function updateUpgGUI() {
     subtabButtons.loot.style.display = game.upgrades.f2_3.gt(0) ? "" : "none";
+    if (game.upgrades.f2_3.gt(0)) lootbox.style.display = "";
     subtabButtons.bricks.style.display = game.upgrades.l3_4 ? "" : "none";
+    if (game.upgrades.l3_4) lootbox.style.display = "";
 
     for (let cat in upgCategories) {
         let div = upgCategories[cat];
@@ -128,6 +135,7 @@ function updateUpgGUI() {
             btn.style.display = "none";
         }
     }
+    updateGUI();
 }
 
 function upgEffect(id) {

@@ -69,4 +69,13 @@ let tips = [
             return game.upgrades.l3_4;
         }
     },
+    {
+        title: "Grimoire Unlocked!",
+        desc: "You are now capable of casting dark magic! The first available speel is \"The Ritual\", which allows you to \"reborn\" - reset everything to get a new currency called \"Mana\". Everything will grow very fast from now on, so you'll reach the point before reset in no time.",
+        desc2: "(Click this box to dismiss)",
+        disClick: true,
+        req() { 
+            return game.upgrades.b4_3;
+        }
+    },
 ]
