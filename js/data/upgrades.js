@@ -428,7 +428,7 @@ let upgrades = {
     "b4_3": {
         category: "Abilities",
         title: "WARNING: The Ritual",
-        desc: "Unlocks The Grimoire and The Ritual, which allows you to \"reborn\"",
+        desc: "Unlocks The Grimoire and The Ritual, which allows you to \"reborn\".",
         req: ["f2", 235],
         tease: "Unlocks at Realm Level 236",
         teaseReq: ["f2", 233],
