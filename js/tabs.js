@@ -49,6 +49,9 @@ function setTab (tab) {
             subtablist.style.display = "none";
             if (tabs[tab].onshow) tabs[tab].onshow(tabSubtabs[tab]);
         }
+
+        tabcontent.setAttribute("tab", tab);
+        tabcontent.setAttribute("subtab", tabSubtabs[tab]);
     }
 
     if (!currentTab && tab) {

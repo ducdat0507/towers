@@ -139,6 +139,27 @@ a:active {
     content: "Bricks";
 }
 
+#manabox {
+    background: #5f1f5fdf;
+    border-color: #af7faf;
+}
+#manabox::before {
+    position: absolute;
+    left: 5px;
+    content: "Mana";
+}
+
+#karmabox {
+    background: #5f1f4fdf;
+    border-color: #af4f8f;
+}
+#karmabox::before {
+    position: absolute;
+    left: 5px;
+    content: "Karma";
+}
+
+
 .hidden {
     opacity: 0;
 }
@@ -294,10 +315,14 @@ a:active {
 
 .upgbtn {
     position: relative;
-    height: 100px;
-    padding: 5px 8px 25px 8px;
+    padding: 10px;
     overflow: hidden;
     transition: height .3s, margin .3s, padding .3s, border .3s, opacity .3s;
+}
+
+[tab="upgrades"] .upgbtn {
+    height: 100px;
+    padding-bottom: 30px;
 }
 
 .upgbtn :first-child {

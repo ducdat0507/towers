@@ -8,6 +8,10 @@ function getStartGame() {
         lootTotal: EN(0),
         bricks: EN(0),
         bricksTotal: EN(0),
+        mana: EN(0),
+        manaTotal: EN(0),
+        karma: EN(0),
+        karmaTotal: EN(0),
 
         tipStage: 0,
         tipShown: true,

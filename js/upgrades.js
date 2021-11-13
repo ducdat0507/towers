@@ -50,6 +50,8 @@ function makeUpgGUI (type) {
                             famebox.innerHTML = format(game.points, 0);
                             lootbox.innerHTML = format(game.loot, 0);
                             brickbox.innerHTML = format(game.bricks, 0);
+                            manabox.innerHTML = format(game.mana, 0);
+                            karmabox.innerHTML = format(game.karma, 0);
                             updateUpgGUI();
                         }
                     } else {
@@ -61,6 +63,8 @@ function makeUpgGUI (type) {
                             famebox.innerHTML = format(game.points, 0);
                             lootbox.innerHTML = format(game.loot, 0);
                             brickbox.innerHTML = format(game.bricks, 0);
+                            manabox.innerHTML = format(game.mana, 0);
+                            karmabox.innerHTML = format(game.karma, 0);
                             updateUpgGUI();
                         }
                     }
@@ -79,6 +83,8 @@ function makeUpgGUI (type) {
                 famebox.innerHTML = format(game.points, 0);
                 lootbox.innerHTML = format(game.loot, 0);
                 brickbox.innerHTML = format(game.bricks, 0);
+                manabox.innerHTML = format(game.mana, 0);
+                karmabox.innerHTML = format(game.karma, 0);
                 updateUpgGUI();
             };
         };
