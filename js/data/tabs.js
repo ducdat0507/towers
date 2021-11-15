@@ -98,6 +98,14 @@ let tabs = {
             },
             control: {
                 title: "Controls",
+                content: `
+                    <div class="subtitle">(Keyboard only, more control options coming soon)</div>
+                    <br/>
+                    <div class="upgcategory" id="keybindings">
+                        <div>Keybindings</div>
+                    </div>
+                    <div class="subtitle">(Click the "+" button to bind a key, click a key to unbind it.)</div>
+                `,
             },
             about: {
                 title: "About",
@@ -132,6 +140,47 @@ let tabs = {
 
                     worldthemediv.appendChild(btn);
                     btns[theme] = btn;
+                }
+            } else if (subtab == "control") {
+                let keybindings = document.getElementById("keybindings");
+                let btns = {};
+                for (let key in keyBindNames) {
+                    let name = keyBindNames[key];
+                    let div = document.createElement("div");
+                    
+                    function update() {
+                        div.innerHTML = name + " "
+                        for (let x in game.options.keys[key]) {
+                            let k = game.options.keys[key][x];
+                            let btn = document.createElement("button");
+                            btn.classList.add("key");
+                            btn.innerHTML = getKeyName(k);
+
+                            btn.onclick = () => {
+                                game.options.keys[key].splice(x, 1);
+                                update();
+                            }
+
+                            div.appendChild(btn);
+                        }
+                        let btn = document.createElement("button");
+                        btn.classList.add("key");
+                        btn.innerHTML = "+";
+
+                        btn.onclick = () => {
+                            if (currentRebind) btns[currentRebind].disabled = false;
+                            currentRebind = key;
+                            currentRebindEvent = update;
+                            btn.disabled = true;
+                        }
+
+                        div.appendChild(btn);
+                        btns[key] = btn;
+                    }
+
+                    update();
+
+                    keybindings.appendChild(div);
                 }
             }
         }

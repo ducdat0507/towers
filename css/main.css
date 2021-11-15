@@ -325,13 +325,13 @@ a:active {
     padding-bottom: 30px;
 }
 
-.upgbtn :first-child {
+.upgbtn > :first-child {
     font-weight: bold;
 }
-.upgbtn :nth-child(3) {
+.upgbtn > :nth-child(3) {
     font-size: 11px;
 }
-.upgbtn :nth-child(4) {
+.upgbtn > :nth-child(4) {
     position: absolute;
     bottom: 0; left: 0; right: 0;
     padding: 5px;
@@ -345,4 +345,38 @@ a:active {
 }
 .subtitle {
     font-size: 11px;
+}
+
+#keybindings > :not(:first-child) {
+    text-align: left;
+    margin: 0px 5px;
+}
+
+.key {
+    background: #373a3ddf;
+    color: #ffffff;
+    border: 1px solid #848a91;
+    border-radius: 5px;
+    box-shadow: 0 0 5px #0000007f;
+    padding: 2px;
+    margin: 2px;
+    height: 21px;
+    min-width: 21px;
+    font-size: 11px;
+    text-align: center;
+}
+.key:hover {
+    background: #623334df;
+}
+.key:active {
+    background: #221111df;
+}
+.key:last-child {
+    background: #163a17df;
+}
+.key:last-child:hover {
+    background: #316634df;
+}
+.key:last-child:active {    
+    background: #112211df;
 }

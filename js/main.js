@@ -5,6 +5,8 @@
 let canvas, ctx, tipbox, famebox, lootbox, menu, touchdiv, tablist, tabbox, subtablist, tabcontent;
 
 let touchPos = null;
+let currentRebind = "";
+let currentRebindEvent = null;
 
 function init() {
     canvas = document.getElementById("canvas");
@@ -23,11 +25,25 @@ function init() {
 
     document.body.onresize = (e) => { canvasDirty = true; }
     document.body.onkeydown = (e) => {
-        if (game.tipStage >= 2) {
-                 if (["w", "W", "ArrowUp"].includes(e.key)) movePlayer([0, 1]);
-            else if (["s", "S", "ArrowDown"].includes(e.key)) movePlayer([0, -1]);
-            else if (["d", "D", "ArrowRight"].includes(e.key)) movePlayer([1, 0]);
-            else if (["a", "A", "ArrowLeft"].includes(e.key)) movePlayer([-1, 0]);
+        let key = e.key.toLowerCase();
+        if (currentRebind) {
+            for (let keys in game.options.keys) {
+                let index = game.options.keys[keys].indexOf(key);
+                if (index >= 0) { 
+                    game.options.keys[keys].splice(index, 1);
+                    break;
+                }
+            }
+            game.options.keys[currentRebind].push(key);
+            game.options.keys[currentRebind].sort();
+            currentRebindEvent();
+            currentRebind = "";
+            currentRebindEvent = null;
+        } else if (game.tipStage >= 2) {
+                 if (game.options.keys.up.includes(key)) movePlayer([0, 1]);
+            else if (game.options.keys.down.includes(key)) movePlayer([0, -1]);
+            else if (game.options.keys.right.includes(key)) movePlayer([1, 0]);
+            else if (game.options.keys.left.includes(key)) movePlayer([-1, 0]);
         }
     }
     tipbox.onclick = (e) => {

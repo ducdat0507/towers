@@ -22,6 +22,12 @@ function getStartGame() {
 
         options: {
             worldTheme: "day",
+            keys: {
+                up: ["w", "arrowup"],
+                down: ["s", "arrowdown"],
+                left: ["a", "arrowleft"],
+                right: ["d", "arrowright"],
+            }
         }
     }
 
