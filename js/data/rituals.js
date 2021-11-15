@@ -22,6 +22,9 @@ let rituals = {
             game.levelBase = makeLevel(1);
             game.level = fixLevel(JSON.parse(JSON.stringify(game.levelBase)));
 
+            lootbox.classList.remove("hidden");
+            brickbox.classList.remove("hidden");
+
             canvasDirty = true;
             setTab("");
         },

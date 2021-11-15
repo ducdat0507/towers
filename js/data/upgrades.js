@@ -4,7 +4,7 @@ let upgrades = {
         title: "Fame Multiplier",
         desc: "Increase Fame gain by ×2, compounding.",
         disp(x) { return "×" + format(this.effect(x), 0); },
-        max: EN("ee10"),
+        max: EN("ee1000"),
         costType: "points",
         cost(x) { return EN(1500).mul(EN.pow(3, x.pow(1.2))); },
         inv(x) { return x.div(1500).logBase(3).root(1.2).floor().max(-1); },
@@ -83,6 +83,9 @@ let upgrades = {
         cost(x) { return EN(1e30).pow(EN.pow(1.14, x)).mul(1e150); },
         inv(x) { return x.div(1e150).logBase(1e30).logBase(1.14).floor().max(-1); },
         effect(x) { return EN.mul(0.0025, x); },
+        onBuy() {
+            lootbox.classList.remove("hidden");
+        },
     },
     "f3": {
         category: "Loot",
@@ -230,6 +233,9 @@ let upgrades = {
         disp(x) { return ""; },
         costType: "loot",
         cost(x) { return EN(1e20); },
+        onBuy() {
+            brickbox.classList.remove("hidden");
+        },
     },
     "l3_5": {
         category: "Abilities",
@@ -493,5 +499,16 @@ let upgrades = {
         disp(x) { return ""; },
         costType: "karma",
         cost(x) { return EN(100); },
+    },
+    "k3_1": {
+        category: "Abilities",
+        title: "Easy Bricks",
+        desc: "Gain Bricks when complete a tower instead of a level.",
+        req: ["k3"],
+        disp(x) { return ""; },
+        isBool: true,
+        disp(x) { return ""; },
+        costType: "karma",
+        cost(x) { return EN(1000); },
     },
 }

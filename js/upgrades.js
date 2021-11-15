@@ -52,6 +52,7 @@ function makeUpgGUI (type) {
                             brickbox.innerHTML = format(game.bricks, 0);
                             manabox.innerHTML = format(game.mana, 0);
                             karmabox.innerHTML = format(game.karma, 0);
+                            if (data.onBuy) data.onBuy();
                             updateUpgGUI();
                         }
                     } else {
@@ -65,6 +66,7 @@ function makeUpgGUI (type) {
                             brickbox.innerHTML = format(game.bricks, 0);
                             manabox.innerHTML = format(game.mana, 0);
                             karmabox.innerHTML = format(game.karma, 0);
+                            if (data.onBuy) data.onBuy();
                             updateUpgGUI();
                         }
                     }
@@ -85,6 +87,7 @@ function makeUpgGUI (type) {
                 brickbox.innerHTML = format(game.bricks, 0);
                 manabox.innerHTML = format(game.mana, 0);
                 karmabox.innerHTML = format(game.karma, 0);
+                if (data.onBuy) data.onBuy();
                 updateUpgGUI();
             };
         };
@@ -100,6 +103,7 @@ function updateUpgGUI() {
     if (game.upgrades.f2_3.gt(0)) lootbox.style.display = "";
     subtabButtons.bricks.style.display = game.upgrades.l3_4 ? "" : "none";
     if (game.upgrades.l3_4) lootbox.style.display = "";
+    subtabButtons.mana.style.display = subtabButtons.karma.style.display = game.upgrades.b4_3 ? "" : "none";
 
     for (let cat in upgCategories) {
         let div = upgCategories[cat];
