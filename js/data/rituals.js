@@ -1,12 +1,14 @@
 let rituals = {
     mana: {
         title: "Mana Ritual",
-        gain() { return game.points.gte("eee50") ? game.points.max(10).slog(10).pow(1.2).div(3 ** 0.2).floor() : EN(0); },
-        inv(x) { return EN.tetr(10, x.mul(3 ** 0.2).root(1.2)).max("eee50"); },
+        gain() { return game.points.gte("eee50") ? game.points.max(10).slog(10).pow(1.2).div(3 ** 0.2).mul(upgEffect("k1_3")).floor() : EN(0); },
+        inv(x) { return EN.tetr(10, x.div(upgEffect("k1_3")).mul(3 ** 0.2).root(1.2)).max("eee50"); },
         onRitual() {
             let gain = this.gain();
             game.mana = game.mana.add(gain);
             game.manaTotal = game.manaTotal.add(gain);
+            manabox.innerHTML = format(game.mana, 0);
+            manabox.classList.remove("hidden");
 
             game.points = game.loot = game.bricks = EN(0);
             famebox.innerHTML = lootbox.innerHTML = brickbox.innerHTML = format(0, 0);
@@ -22,8 +24,8 @@ let rituals = {
             game.levelBase = makeLevel(1);
             game.level = fixLevel(JSON.parse(JSON.stringify(game.levelBase)));
 
-            lootbox.classList.remove("hidden");
-            brickbox.classList.remove("hidden");
+            lootbox.classList.add("hidden");
+            brickbox.classList.add("hidden");
 
             canvasDirty = true;
             setTab("");

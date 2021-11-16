@@ -33,63 +33,14 @@ function makeUpgGUI (type) {
             upglist.appendChild(cat);
         }
 
-        function update() {
-        }
-
         btn.onmousedown = () => {
-            if (game.tipStage >= 6) upgTimeout = setTimeout(() => {
-                if (data.isBool) btn.onclick();
-                else {
-                    let level = game.upgrades[upg];
-                    if (data.invSum) {
-                        let inv = data.inv(level, game[data.costType]).min(data.max ? data.max.sub(level) : Infinity);
-                        if (inv.gt(0)) {
-                            let cost = data.invSum(level, inv);
-                            game[data.costType] = game[data.costType].sub(cost).max(0);
-                            game.upgrades[upg] = inv.add(level);
-                            famebox.innerHTML = format(game.points, 0);
-                            lootbox.innerHTML = format(game.loot, 0);
-                            brickbox.innerHTML = format(game.bricks, 0);
-                            manabox.innerHTML = format(game.mana, 0);
-                            karmabox.innerHTML = format(game.karma, 0);
-                            if (data.onBuy) data.onBuy();
-                            updateUpgGUI();
-                        }
-                    } else {
-                        let inv = data.inv(game[data.costType]).min(data.max ? data.max.sub(1) : Infinity);
-                        if (inv.gte(level)) {
-                            let cost = data.cost(inv);
-                            if (isUpgPriced(data)) game[data.costType] = game[data.costType].sub(cost).max(0);
-                            game.upgrades[upg] = inv.add(1);
-                            famebox.innerHTML = format(game.points, 0);
-                            lootbox.innerHTML = format(game.loot, 0);
-                            brickbox.innerHTML = format(game.bricks, 0);
-                            manabox.innerHTML = format(game.mana, 0);
-                            karmabox.innerHTML = format(game.karma, 0);
-                            if (data.onBuy) data.onBuy();
-                            updateUpgGUI();
-                        }
-                    }
-                }
-            }, 500)
+            if (game.tipStage >= 6) upgTimeout = setTimeout(() => buyMax(upg), 500)
         }
         btn.onmouseup = () => {
             clearTimeout(upgTimeout);
         }
         btn.onclick = () => {
-            let level = game.upgrades[upg];
-            let cost = data.cost(level);
-            if ((!data.isBool || !level) && (!data.max || level.lt(data.max)) && game[data.costType].gte(cost)) {
-                if (isUpgPriced(data)) game[data.costType] = game[data.costType].sub(cost).max(0);
-                game.upgrades[upg] = data.isBool ? true : game.upgrades[upg].add(1);
-                famebox.innerHTML = format(game.points, 0);
-                lootbox.innerHTML = format(game.loot, 0);
-                brickbox.innerHTML = format(game.bricks, 0);
-                manabox.innerHTML = format(game.mana, 0);
-                karmabox.innerHTML = format(game.karma, 0);
-                if (data.onBuy) data.onBuy();
-                updateUpgGUI();
-            };
+            buyOne(upg);
         };
 
         upgButtons[upg] = btn;
@@ -146,6 +97,69 @@ function updateUpgGUI() {
         }
     }
     updateGUI();
+}
+
+function buyOne(upg, update = true) {
+    let data = upgrades[upg];
+    let level = game.upgrades[upg];
+    let cost = data.cost(level);
+    if ((!data.isBool || !level) && (!data.max || level.lt(data.max)) && game[data.costType].gte(cost)) {
+        if (isUpgPriced(data)) game[data.costType] = game[data.costType].sub(cost).max(0);
+        game.upgrades[upg] = data.isBool ? true : game.upgrades[upg].add(1);
+        famebox.innerHTML = format(game.points, 0);
+        lootbox.innerHTML = format(game.loot, 0);
+        brickbox.innerHTML = format(game.bricks, 0);
+        manabox.innerHTML = format(game.mana, 0);
+        karmabox.innerHTML = format(game.karma, 0);
+        if (data.onBuy) data.onBuy();
+        if (update) updateUpgGUI();
+    };
+}
+
+function buyMax(upg, update = true) {
+    let data = upgrades[upg];
+    if (data.isBool) buyOne(upg);
+    else {
+        let level = game.upgrades[upg];
+        if (data.invSum) {
+            let inv = data.inv(level, game[data.costType]).min(data.max ? data.max.sub(level) : Infinity);
+            if (inv.gt(0)) {
+                let cost = data.invSum(level, inv);
+                game[data.costType] = game[data.costType].sub(cost).max(0);
+                game.upgrades[upg] = inv.add(level);
+                famebox.innerHTML = format(game.points, 0);
+                lootbox.innerHTML = format(game.loot, 0);
+                brickbox.innerHTML = format(game.bricks, 0);
+                manabox.innerHTML = format(game.mana, 0);
+                karmabox.innerHTML = format(game.karma, 0);
+                if (data.onBuy) data.onBuy();
+                if (update) updateUpgGUI();
+            }
+        } else {
+            let inv = data.inv(game[data.costType]).min(data.max ? data.max.sub(1) : Infinity);
+            if (inv.gte(level)) {
+                let cost = data.cost(inv);
+                if (isUpgPriced(data)) game[data.costType] = game[data.costType].sub(cost).max(0);
+                game.upgrades[upg] = inv.add(1);
+                famebox.innerHTML = format(game.points, 0);
+                lootbox.innerHTML = format(game.loot, 0);
+                brickbox.innerHTML = format(game.bricks, 0);
+                manabox.innerHTML = format(game.mana, 0);
+                karmabox.innerHTML = format(game.karma, 0);
+                if (data.onBuy) data.onBuy();
+                if (update) updateUpgGUI();
+            }
+        }
+    }
+}
+
+function buyMaxType(type) {
+    console.log(type);
+    for (let upg in upgrades) {
+        let data = upgrades[upg];
+        if (data.costType == type) buyMax(upg, false);
+    }
+    if (currentTab == "upgrades" && tabSubtabs.upgrades == type) updateUpgGUI();
 }
 
 function upgEffect(id) {

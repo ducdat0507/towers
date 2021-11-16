@@ -78,4 +78,13 @@ let tips = [
             return game.upgrades.b4_3;
         }
     },
+    {
+        title: "Max Visible Realm Level Reached!",
+        desc: "The generated levels won't become anymore difficult after Realm Level 1,000, but you can still upgrade it to increase your Karma gain!",
+        desc2: "(Click this box to dismiss)",
+        disClick: true,
+        req() { 
+            return game.upgrades.f2.gte(999);
+        }
+    },
 ]

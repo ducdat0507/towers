@@ -111,6 +111,10 @@ function makeAddEffect(elem, diff) {
     elem.offsetWidth;
     elem.setAttribute("diff", diff);
     elem.classList.add("addEffect");
+
+    if (elem.id == "famebox" && game.upgrades.k2) buyMaxType("points");
+    if (elem.id == "lootbox" && game.upgrades.k2_1) buyMaxType("loot");
+    if (elem.id == "brickbox" && game.upgrades.k2_2) buyMaxType("bricks");
 }
 
 function updateGUI() {
@@ -264,7 +268,7 @@ function movePlayer(offset) {
 
         if (levelCompleted) addAnimator(function (t) {
             if (!this.gen && t >= 500) {
-                game.levelBase = makeLevel(game.upgrades.f2.toNumber() + 1);
+                game.levelBase = makeLevel(game.upgrades.f2.min(999).toNumber() + 1);
                 game.level = fixLevel(JSON.parse(JSON.stringify(game.levelBase)));
                 this.gen = true;
             }
