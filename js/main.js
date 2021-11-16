@@ -177,6 +177,7 @@ function movePlayer(offset) {
         }
     } else if (tile[0][0] == "loot") {
         let gain = tile[0][1].mul(upgEffect("f3")).mul(upgEffect("b2"));
+        if (game.upgrades.k1_1.gt(0)) gain = EN.tetr(gain, upgEffect("k1_1"));
         if (game.upgrades.f3_1) gain = gain.mul(upgEffect("f1_1"));
         if (game.upgrades.f3_2) gain = gain.mul(upgEffect("f1_2"));
         if (game.upgrades.b4_2) {
@@ -224,7 +225,7 @@ function movePlayer(offset) {
             return t < 1000;
         })
     } else if (levelCompleted || (game.upgrades.k3 && towerCompleted)) {
-        let gain = player[1].pow(upgEffect("f1_2")).mul(upgEffect("f1")).mul(upgEffect("l1")).pow(upgEffect("f1_1")).pow(upgEffect("l1_1")).pow(upgEffect("b1"))
+        let gain = player[1].pow(upgEffect("f1_2")).mul(upgEffect("f1")).mul(upgEffect("l1")).pow(upgEffect("f1_1")).pow(upgEffect("l1_1")).pow(upgEffect("b1"));
         if (game.upgrades.k1.gt(0)) gain = EN.tetr(gain, upgEffect("k1"));
         if (game.upgrades.l3_6) {
             let oldPoints = game.points;
@@ -241,7 +242,7 @@ function movePlayer(offset) {
         famebox.classList.remove("hidden");
         if (game.pointsTotal.gte(1500)) menu.classList.remove("hidden");
 
-        if (game.upgrades.l3_4 && levelCompleted) {
+        if (game.upgrades.l3_4 && (levelCompleted || game.upgrades.k3_1)) {
             let bricks = 0;
             for (tower of game.level) bricks += tower.length;
             if (game.upgrades.b3.gt(0)) bricks = player[1].max(1e10).log10().log10().pow(upgEffect("b3")).mul(bricks);
@@ -252,6 +253,7 @@ function movePlayer(offset) {
             if (game.upgrades.b3_5.gt(0)) bricks = upgEffect("f1_2").pow(upgEffect("b3_5")).mul(bricks);
             if (game.upgrades.b3_6.gt(0)) bricks = upgEffect("l2_1").pow(upgEffect("b3_6")).mul(bricks);
             if (game.upgrades.b3_7.gt(0)) bricks = upgEffect("l2_2").pow(upgEffect("b3_7")).mul(bricks);
+            if (game.upgrades.k1_2.gt(0)) bricks = EN.tetr(bricks, upgEffect("k1_2"));
             game.bricks = game.bricks.add(bricks);
             game.bricksTotal = game.bricksTotal.add(bricks);
             brickbox.innerHTML = format(game.bricks, 0);
