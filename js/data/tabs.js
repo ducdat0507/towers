@@ -44,29 +44,7 @@ let tabs = {
         },
         onshow(subtab) {
             if (subtab == "ritual") {
-                let ritualselect = document.getElementById("ritualselect");
-
-                for (let ritual in rituals) {
-                    let data = rituals[ritual];
-
-                    let btn = document.createElement("button");
-                    btn.classList.add("upgbtn");
-
-                    let gain = data.gain();
-                    
-                    btn.innerHTML = `
-                        <div>${data.title}</div>
-                        <div></div>
-                        <div>+${format(gain, 0)}<br/>Next at ${format(data.inv(gain.add(1)))}</div>
-                    `;
-
-                    btn.onclick = () => {
-                        let gain = data.gain();
-                        if (gain.gt(0)) data.onRitual();
-                    }
-                    
-                    ritualselect.appendChild(btn); 
-                }
+                makeRitualGUI();
             }
         }
     },

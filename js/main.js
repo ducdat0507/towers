@@ -115,6 +115,8 @@ function makeAddEffect(elem, diff) {
     if (elem.id == "famebox" && game.upgrades.k2) buyMaxType("points");
     if (elem.id == "lootbox" && game.upgrades.k2_1) buyMaxType("loot");
     if (elem.id == "brickbox" && game.upgrades.k2_2) buyMaxType("bricks");
+
+    if (currentTab == "grimoire" && tabSubtabs.grimoire == "ritual") updateRitualGUI();
 }
 
 function updateGUI() {
@@ -171,8 +173,10 @@ function movePlayer(offset) {
         tile.unshift(player);
     } else if (tile[0][0] == "enemy") {
         if (player[1].gte(tile[0][1])) {
-            if (game.upgrades.l3_7) player[1] = player[1].mul(tile[0][1].pow(upgEffect("l3_1").add(1)).pow(upgEffect("b4").add(1)));
-            else player[1] = player[1].add(tile[0][1].pow(upgEffect("l3_1").add(1)).pow(upgEffect("b4").add(1)));
+            let gain = tile[0][1].pow(upgEffect("l3_1").add(1)).pow(upgEffect("b4").add(1));
+            if (game.upgrades.k3_5.gt(0)) gain = gain.tetr(upgEffect("k3_5"));
+            if (game.upgrades.l3_7) player[1] = player[1].mul(gain);
+            else player[1] = player[1].add(gain);
             tile.shift();
             tile.unshift(player);
         } else {
@@ -268,7 +272,7 @@ function movePlayer(offset) {
 
         if (levelCompleted) addAnimator(function (t) {
             if (!this.gen && t >= 500) {
-                game.levelBase = makeLevel(game.upgrades.f2.min(999).toNumber() + 1);
+                game.levelBase = makeLevel(game.upgrades.f2.min(upgEffect("k3_2")).toNumber() + 1);
                 game.level = fixLevel(JSON.parse(JSON.stringify(game.levelBase)));
                 this.gen = true;
             }
@@ -286,6 +290,7 @@ function movePlayer(offset) {
     if (game.upgrades.m1_2.gt(0)) karmaAdd = karmaAdd.add(upgEffect("m1_2"));
     
     if (karmaAdd.gt(0)) {
+        karmaAdd = karmaAdd.mul(upgEffect("m1_3"));
         game.karma = game.karma.add(karmaAdd);
         game.karmaTotal = game.karmaTotal.add(karmaAdd);
         karmabox.innerHTML = format(game.karma, 0);
@@ -335,6 +340,7 @@ function makeLevel(diff) {
             } else {
                 tower[p].push(["enemy", startAmount.floor()]);
                 startAmount = startAmount.mul(upgEffect("f2_2").mul(Math.random()).add(1)).pow(upgEffect("l3_1").add(1).pow(upgEffect("l3_2")));
+                if (game.upgrades.k3_6.gt(0)) startAmount = startAmount.tetr(upgEffect("k3_5").mul(upgEffect("k3_6")).div(100).add(1).max(2))
             }
 
             
@@ -389,7 +395,7 @@ function gameLoop() {
     updateAnimator();
 
     for (tip in tips) {
-        if (tip > game.tipStage && tips[tip].req && tips[tip].req()) {
+        if (+tip > +game.tipStage && tips[tip].req && tips[tip].req()) {
             game.tipStage = tip;
             game.tipShown = true;
             showTip();

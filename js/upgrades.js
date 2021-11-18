@@ -3,7 +3,9 @@ let upgButtons = {};
 let upgCategories = {};
 
 function isUpgPriced(data) {
-    return (data.costType != "points" || !game.upgrades.l3_5) && (data.costType != "loot" || !game.upgrades.b4_1);
+    return (data.costType != "points" || !game.upgrades.l3_5) && 
+        (data.costType != "loot" || !game.upgrades.b4_1) && 
+        (data.costType != "bricks" || !game.upgrades.k3_3);
 }
 
 function makeUpgGUI (type) {
@@ -50,6 +52,7 @@ function makeUpgGUI (type) {
 }
 
 function updateUpgGUI() {
+
     subtabButtons.loot.style.display = game.upgrades.f2_3.gt(0) ? "" : "none";
     if (game.upgrades.f2_3.gt(0)) lootbox.style.display = "";
     subtabButtons.bricks.style.display = game.upgrades.l3_4 ? "" : "none";
@@ -65,7 +68,7 @@ function updateUpgGUI() {
         let btn = upgButtons[upg];
         let level = game.upgrades[upg];
 
-        if (!data.req || (upgrades[data.req[0]].isBool ? game.upgrades[data.req[0]] : game.upgrades[data.req[0]].gte(data.req[1]))) {
+        if (hasUpg(upg) || !data.req || hasUpg(data.req[0], data.req[1])) {
             btn.style.display = "";
             upgCategories[data.category].style.display = "";
             let eff = "";
@@ -81,7 +84,7 @@ function updateUpgGUI() {
                 <div>${data.desc}</div>
                 <div>${data.isBool ? (level ? "Bought" : format(data.cost(level))) : (level.gte(data.max) ? "Maxed out" : format(data.cost(level)))}</div>
             `;
-        } else if (data.tease && (!data.teaseReq || (upgrades[data.teaseReq[0]].isBool ? game.upgrades[data.teaseReq[0]] : game.upgrades[data.teaseReq[0]].gte(data.teaseReq[1])))) {
+        } else if (data.tease && (!data.teaseReq || hasUpg(data.teaseReq[0], data.teaseReq[1]))) {
             btn.style.display = "";
             upgCategories[data.category].style.display = "";
 
@@ -97,6 +100,10 @@ function updateUpgGUI() {
         }
     }
     updateGUI();
+}
+
+function hasUpg(id, thres = 1) {
+    return upgrades[id].isBool ? game.upgrades[id] : game.upgrades[id].gte(thres)
 }
 
 function buyOne(upg, update = true) {
@@ -125,7 +132,7 @@ function buyMax(upg, update = true) {
             let inv = data.inv(level, game[data.costType]).min(data.max ? data.max.sub(level) : Infinity);
             if (inv.gt(0)) {
                 let cost = data.invSum(level, inv);
-                game[data.costType] = game[data.costType].sub(cost).max(0);
+                if (isUpgPriced(data)) game[data.costType] = game[data.costType].sub(cost).max(0);
                 game.upgrades[upg] = inv.add(level);
                 famebox.innerHTML = format(game.points, 0);
                 lootbox.innerHTML = format(game.loot, 0);
@@ -154,7 +161,6 @@ function buyMax(upg, update = true) {
 }
 
 function buyMaxType(type) {
-    console.log(type);
     for (let upg in upgrades) {
         let data = upgrades[upg];
         if (data.costType == type) buyMax(upg, false);

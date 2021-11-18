@@ -154,7 +154,8 @@ function format(num, precision=2, small=false) {
     }
     else if (num.lt("10^^1000000000")) { // 1F5 ~ F1,000,000
         let pol = polarize(array)
-        return regularFormat(pol.bottom, precision3) + "F" + commaFormat(pol.top)
+        let p = pol.top < 1000 ? precision3 : precision3 - Math.floor(Math.log10(pol.top)) + 2;
+        return regularFormat(pol.bottom, p) + "F" + commaFormat(pol.top)
     }
     else if (num.lt("10^^^5")) { // F1,000,000 ~ 1G5
         let rep = arraySearch(array, 2)
