@@ -484,7 +484,7 @@ let upgrades = {
     "m1_3": {
         category: "Karma",
         title: "Mana to Karma",
-        desc: "Multiplies Mana gain by ×+0.5, additively.",
+        desc: "Multiplies Karma gain by ×+0.5, additively.",
         disp(x) { return "×" + format(this.effect(x), 1); },
         req: ["k1_3", 4],
         costType: "mana",
