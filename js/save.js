@@ -87,6 +87,9 @@ function showImportPopup() {
         let msg = "Do you want to import this save? This will override your current save!\n\n" +
             "Save Preview - This save has:\n" + format(sGame.points, 0) + " Fame";
         if (sGame.lootTotal.gt(0)) msg += "\n" + format(sGame.loot, 0) + " Loot";
+        if (sGame.bricksTotal.gt(0)) msg += "\n" + format(sGame.bricks, 0) + " Bricks";
+        if (sGame.manaTotal.gt(0)) msg += "\n" + format(sGame.mana, 0) + " Mana";
+        if (sGame.karmaTotal.gt(0)) msg += "\n" + format(sGame.karma, 0) + " Karma";
         if (!confirm(msg)) return;
         localStorage.setItem("tower", btoa(JSON.stringify(sGame)));
         location.reload();

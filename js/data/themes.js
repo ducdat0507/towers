@@ -59,4 +59,24 @@ let worldThemes = {
         lootStroke: "#00000000",
         lootText: "#000000",
     },
+    trans: {
+        title: "Transcendance",
+
+        skyFill: "#738cff1f",
+        groundFill: "#6db0371f",
+        towerFill: "#6f6f6f",
+        towerStroke: "#4f4f4f",
+        cellFill: "#9f9f9f",
+        cellStroke: "#4f4f4f",
+        
+        playerFill: "#3f3fff",
+        playerStroke: "#5f5fff",
+        playerText: "#ffffff",
+        enemyFill: "#ff1f1f",
+        enemyStroke: "#ff4f4f",
+        enemyText: "#ffffff",
+        lootFill: "#ffff1f",
+        lootStroke: "#ffff7f",
+        lootText: "#000000",
+    },
 }

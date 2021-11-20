@@ -203,9 +203,12 @@ function movePlayer(offset) {
 
         let oldPoints = EN(game.points);
         game.points = game.points.mul(gain.pow(upgEffect("l3_3")));
+        if (game.upgrades.k3_9) game.points = game.points.tetr(upgEffect("k1_1")).tetr(tile[0][1].max(10).slog(10));
         game.pointsTotal = game.pointsTotal.add(game.points.sub(oldPoints));
         famebox.innerHTML = format(game.points, 0);
         if (game.points.neq(oldPoints)) makeAddEffect(famebox, "×" + format(game.points.div(oldPoints), 0));
+
+        if (game.upgrades.k3_10) player[1] = player[1].tetr(upgEffect("k1_1")).tetr(tile[0][1].max(10).slog(10));
 
         tile.shift();
         tile.unshift(player);
@@ -285,10 +288,18 @@ function movePlayer(offset) {
     }
     if (towerCompleted) {
         if (game.upgrades.l3) game.levelBase = fixLevel(JSON.parse(JSON.stringify(game.level)));
-        if (game.upgrades.m1_1.gt(0)) karmaAdd = karmaAdd.add(upgEffect("m1_1").mul(game.upgrades.f2.add(1).cbrt()));
+        if (game.upgrades.m1_1.gt(0)) {
+            let gain = upgEffect("m1_1").mul(game.upgrades.f2.add(1).cbrt());
+            if (game.upgrades.m1_4.gt(0)) gain = gain.mul(upgEffect("m1").mul(game.upgrades.f2.add(1).sqrt()).sqrt().mul(upgEffect("m1_4")))
+            karmaAdd = karmaAdd.add(gain);
+        }
     }
 
-    if (game.upgrades.m1_2.gt(0)) karmaAdd = karmaAdd.add(upgEffect("m1_2"));
+    if (game.upgrades.m1_2.gt(0)) {
+        let gain = upgEffect("m1_2");
+        if (game.upgrades.m1_5.gt(0)) gain = gain.mul(upgEffect("m1").mul(game.upgrades.f2.add(1).sqrt()).sqrt().mul(upgEffect("m1_5")));
+        karmaAdd = karmaAdd.add(gain);
+    }
     
     if (karmaAdd.gt(0)) {
         karmaAdd = karmaAdd.mul(upgEffect("m1_3"));
@@ -337,11 +348,13 @@ function makeLevel(diff) {
 
             if (upgEffect("f2_3").gt(Math.random() * chance)) {
                 let loot = EN(Math.random()).mul(upgEffect("l2_2")).add(upgEffect("l2_1")).mul(upgEffect("l2"));
+                if (game.upgrades.k3_10) startAmount = startAmount.tetr(upgEffect("k1_1")).tetr(loot.max(10).slog(10));
                 tower[p].push(["loot", loot]);
             } else {
                 tower[p].push(["enemy", startAmount.floor()]);
                 startAmount = startAmount.mul(upgEffect("f2_2").mul(Math.random()).add(1)).pow(upgEffect("l3_1").add(1).pow(upgEffect("l3_2")));
-                if (game.upgrades.k3_6.gt(0)) startAmount = startAmount.tetr(upgEffect("k3_5").mul(upgEffect("k3_6")).div(100).add(1).max(2))
+                if (game.upgrades.k3_6.gt(0)) startAmount = startAmount.tetr(upgEffect("k3_5").mul(upgEffect("k3_6")).div(100).add(1).max(2));
+                if (game.upgrades.k3_7 && t == 0 && x != 0 && game.bricks.gt("ee100")) startAmount = startAmount.tetr(upgEffect("k1")).tetr(upgEffect("k1_2"))
             }
 
             

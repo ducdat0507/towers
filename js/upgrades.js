@@ -52,6 +52,7 @@ function makeUpgGUI (type) {
 }
 
 function updateUpgGUI() {
+    if (!subtabButtons.loot) return;
 
     subtabButtons.loot.style.display = game.upgrades.f2_3.gt(0) ? "" : "none";
     if (game.upgrades.f2_3.gt(0)) lootbox.style.display = "";

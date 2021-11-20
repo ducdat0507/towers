@@ -22,6 +22,7 @@ let rituals = {
             // game.upgrades.l3_4 = true;
             game.upgrades.b4_3 = true;
             if (game.upgrades.k3_4) game.upgrades.l3_5 = true;
+            if (game.upgrades.k3_6) game.upgrades.b4_1 = true;
             game.levelBase = makeLevel(1);
             game.level = fixLevel(JSON.parse(JSON.stringify(game.levelBase)));
 
