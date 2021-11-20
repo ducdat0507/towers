@@ -48,6 +48,33 @@ let tabs = {
             }
         }
     },
+    auto: {
+        title: "Automation",
+        content: `
+            <div class="upgcategory" id="autocontrol">
+                <div>Automation Control</div>
+            </div>
+        `,
+        onshow() {
+            let autocontrol = document.getElementById("autocontrol");
+            let btns = {};
+            for (let auto in autos) {
+                let data = autos[auto];
+                if (data.req && !hasUpg(data.req[0], data.req[1])) continue;
+                let btn = document.createElement("button");
+                btn.classList.add("upgbtn");
+                btn.innerHTML = "<div>" + data.title + "</div><div>" + (game.auto[auto] ? "ON" : "OFF") + "</div>";
+
+                btn.onclick = () => {
+                    game.auto[auto] = !game.auto[auto]
+                    btn.innerHTML = "<div>" + data.title + "</div><div>" + (game.auto[auto] ? "ON" : "OFF") + "</div>";
+                }
+
+                autocontrol.appendChild(btn);
+                btns[auto] = btn;
+            }
+        }
+    },
     options: {
         title: "Options",
         content: `

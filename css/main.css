@@ -196,7 +196,7 @@ a:active {
 #tablist {
     position: absolute;
     top: -44px; left: 0; right: 0;
-    padding: 2px;
+    padding: 2px 2px 2px 5px;
     transition: top .4s;
 }
 #menu.expanded #tablist {
@@ -218,7 +218,7 @@ a:active {
 .tabbtn {
     position: relative;
     padding: 5px 6px;
-    margin: 0px 3px;
+    margin: 0 3px 0 0;
 }
 #subtablist > .tabbtn {
     margin: 0 3px -3px 0;
@@ -235,7 +235,7 @@ a:active {
     top: -2px;
     background: #0baf26;
     border-color: #0baf26;
-    box-shadow: 0 0 20px #000000af, 0 0 10px #17d136;
+    box-shadow: 0 0 20px #000000af, 0 0 10px #000000af, 0 0 10px #17d136;
     z-index: 1;
     border-bottom: none;
 }

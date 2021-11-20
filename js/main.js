@@ -112,15 +112,16 @@ function makeAddEffect(elem, diff) {
     elem.setAttribute("diff", diff);
     elem.classList.add("addEffect");
 
-    if (elem.id == "famebox" && game.upgrades.k2) buyMaxType("points");
-    if (elem.id == "lootbox" && game.upgrades.k2_1) buyMaxType("loot");
-    if (elem.id == "brickbox" && game.upgrades.k2_2) buyMaxType("bricks");
+    if (elem.id == "famebox" && game.auto.fameUpg && game.upgrades.k2) buyMaxType("points");
+    if (elem.id == "lootbox" && game.auto.lootUpg && game.upgrades.k2_1) buyMaxType("loot");
+    if (elem.id == "brickbox" && game.auto.brickUpg && game.upgrades.k2_2) buyMaxType("bricks");
 
     if (currentTab == "grimoire" && tabSubtabs.grimoire == "ritual") updateRitualGUI();
 }
 
 function updateGUI() {
     tabButtons.grimoire.style.display = game.upgrades.b4_3 ? "" : "none";
+    tabButtons.auto.style.display = game.upgrades.k2 ? "" : "none";
 }
 
 // ------------------------------------------------------------------------------------------ Tower Logic

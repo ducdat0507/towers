@@ -88,7 +88,7 @@ let tips = [
         }
     },
     {
-        title: "Max Visible Realm Level Reached!",
+        title: "Max Active Realm Level Reached!",
         desc: "The generated levels won't become anymore difficult after Realm Level 1,000, but you can still upgrade it to increase your Karma gain!",
         desc2: "(Click this box to dismiss)",
         disClick: true,

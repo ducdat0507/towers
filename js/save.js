@@ -20,6 +20,12 @@ function getStartGame() {
 
         upgrades: {},
 
+        auto: {
+            fameUpg: true,
+            lootUpg: true,
+            brickUpg: true,
+        },
+
         options: {
             worldTheme: "day",
             keys: {
