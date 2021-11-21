@@ -2,7 +2,6 @@
 
 // ------------------------------------------------------------------------------------------ Initialization
 
-let canvas, ctx, tipbox, famebox, lootbox, menu, touchdiv, tablist, tabbox, subtablist, tabcontent;
 
 let touchPos = null;
 let currentRebind = "";
@@ -11,15 +10,6 @@ let currentRebindEvent = null;
 function init() {
     canvas = document.getElementById("canvas");
     ctx = canvas.getContext("2d", { alpha: false });
-    tipbox = document.getElementById("tipbox");
-    famebox = document.getElementById("famebox");
-    lootbox = document.getElementById("lootbox");
-    menu = document.getElementById("menu");
-    touchdiv = document.getElementById("touchdiv");
-    tablist = document.getElementById("tablist");
-    tabbox = document.getElementById("tabbox");
-    subtablist = document.getElementById("subtablist");
-    tabcontent = document.getElementById("tabcontent");
 
     initTabs();
 
@@ -95,6 +85,10 @@ function init() {
         karmabox.innerHTML = format(game.karma, 0);
         karmabox.classList.remove("hidden");
     }
+    if (game.upgrades.m2) {
+        elemitebox.innerHTML = format(game.elemite, 0);
+        elemitebox.classList.remove("hidden");
+    }
     if (game.pointsTotal.gte(1500)) menu.classList.remove("hidden");
 
     now = Date.now();
@@ -169,11 +163,10 @@ function movePlayer(offset) {
 
     let playerFail = false;
 
-
     if (!tile[0]) {
         tile.unshift(player);
     } else if (tile[0][0] == "enemy") {
-        if (player[1].gte(tile[0][1])) {
+        if (player[1].gte(tile[0][1]) || game.spells.ice > 0) {
             let gain = tile[0][1].pow(upgEffect("l3_1").add(1)).pow(upgEffect("b4").add(1));
             if (game.upgrades.k3_5.gt(0)) gain = gain.tetr(upgEffect("k3_5"));
             if (game.upgrades.l3_7) player[1] = player[1].mul(gain);
@@ -203,12 +196,30 @@ function movePlayer(offset) {
 
         let oldPoints = EN(game.points);
         game.points = game.points.mul(gain.pow(upgEffect("l3_3")));
-        if (game.upgrades.k3_9) game.points = game.points.tetr(upgEffect("k1_1")).tetr(tile[0][1].max(10).slog(10));
+        let tetr = upgEffect("k1_1").add(tile[0][1].max(10).slog(10));
+        if (game.spells.fire > 0) tetr = tetr.mul(2);
+        if (game.upgrades.k3_9) game.points = game.points.tetr(tetr);
         game.pointsTotal = game.pointsTotal.add(game.points.sub(oldPoints));
         famebox.innerHTML = format(game.points, 0);
         if (game.points.neq(oldPoints)) makeAddEffect(famebox, "×" + format(game.points.div(oldPoints), 0));
 
+        if (game.upgrades.k3_11) {
+            let oldBricks = EN(game.bricks);
+            game.bricks = game.loot.tetr(upgEffect("k1_1")).tetr(tile[0][1].max(10).slog(10));
+            game.bricksTotal = game.bricksTotal.add(game.loot.sub(oldBricks));
+            brickbox.innerHTML = format(game.bricks, 0);
+            makeAddEffect(brickbox, "×" + format(game.bricks.div(oldBricks), 0));
+        }
+
         if (game.upgrades.k3_10) player[1] = player[1].tetr(upgEffect("k1_1")).tetr(tile[0][1].max(10).slog(10));
+        
+        if (game.upgrades.m2) {
+            let gain = 1;
+            game.elemite = game.elemite.add(gain);
+            game.elemiteTotal = game.elemiteTotal.add(gain);
+            elemitebox.innerHTML = format(game.elemite, 0);
+            makeAddEffect(elemitebox, "+" + format(gain, 0));
+        } 
 
         tile.shift();
         tile.unshift(player);
@@ -238,7 +249,10 @@ function movePlayer(offset) {
         })
     } else if (levelCompleted || (game.upgrades.k3 && towerCompleted)) {
         let gain = player[1].pow(upgEffect("f1_2")).mul(upgEffect("f1")).mul(upgEffect("l1")).pow(upgEffect("f1_1")).pow(upgEffect("l1_1")).pow(upgEffect("b1"));
-        if (game.upgrades.k1.gt(0)) gain = EN.tetr(gain, upgEffect("k1"));
+        let tetr = upgEffect("k1");
+        if (game.spells.fire > 0) tetr = tetr.mul(2);
+        if (game.upgrades.k1.gt(0)) gain = EN.tetr(gain, tetr);
+
         if (game.upgrades.l3_6) {
             let oldPoints = game.points;
             game.points = game.points.mul(gain).max(gain);
@@ -274,17 +288,29 @@ function movePlayer(offset) {
         
         if (game.upgrades.m1.gt(0) && levelCompleted) karmaAdd = karmaAdd.add(upgEffect("m1").mul(game.upgrades.f2.add(1).sqrt()));
 
-        if (levelCompleted) addAnimator(function (t) {
-            if (!this.gen && t >= 500) {
-                game.levelBase = makeLevel(game.upgrades.f2.min(upgEffect("k3_2")).toNumber() + 1);
-                game.level = fixLevel(JSON.parse(JSON.stringify(game.levelBase)));
-                this.gen = true;
+        if (levelCompleted) {
+            for (let spell in spells) {
+                if (game.spells[spell] > 0) {
+                    game.spells[spell]--;
+                    if (game.spells[spell] <= 0) game.spells[spell] = -spells[spell].cooldown;
+                } else if (game.spells[spell] < 0) {
+                    game.spells[spell]++;
+                }
             }
-            t = Math.min(1000, t);
-            canvasOffset[0] = 10000 / (500 - t) - 20 * Math.sign(500 - t);
-            canvasDirty = true;
-            return t < 1000;
-        })
+            if (currentTab == "grimoire" && tabSubtabs.grimoire == "elem") updateSpellGUI();
+
+            addAnimator(function (t) {
+                if (!this.gen && t >= 500) {
+                    game.levelBase = makeLevel(game.upgrades.f2.min(upgEffect("k3_2")).toNumber() + 1);
+                    game.level = fixLevel(JSON.parse(JSON.stringify(game.levelBase)));
+                    this.gen = true;
+                }
+                t = Math.min(1000, t);
+                canvasOffset[0] = 10000 / (500 - t) - 20 * Math.sign(500 - t);
+                canvasDirty = true;
+                return t < 1000;
+            })
+        }
     }
     if (towerCompleted) {
         if (game.upgrades.l3) game.levelBase = fixLevel(JSON.parse(JSON.stringify(game.level)));
@@ -342,6 +368,8 @@ function makeLevel(diff) {
         let p = 0;
         let t = 0;
 
+        let lastType = "";
+
         while (t < 100000) {
             
             let chance = 1;
@@ -350,11 +378,14 @@ function makeLevel(diff) {
                 let loot = EN(Math.random()).mul(upgEffect("l2_2")).add(upgEffect("l2_1")).mul(upgEffect("l2"));
                 if (game.upgrades.k3_10) startAmount = startAmount.tetr(upgEffect("k1_1")).tetr(loot.max(10).slog(10));
                 tower[p].push(["loot", loot]);
+                lastType = "loot";
             } else {
                 tower[p].push(["enemy", startAmount.floor()]);
                 startAmount = startAmount.mul(upgEffect("f2_2").mul(Math.random()).add(1)).pow(upgEffect("l3_1").add(1).pow(upgEffect("l3_2")));
                 if (game.upgrades.k3_6.gt(0)) startAmount = startAmount.tetr(upgEffect("k3_5").mul(upgEffect("k3_6")).div(100).add(1).max(2));
-                if (game.upgrades.k3_7 && t == 0 && x != 0 && game.bricks.gt("ee100")) startAmount = startAmount.tetr(upgEffect("k1")).tetr(upgEffect("k1_2"))
+                if (game.upgrades.k3_7 && t == 0 && x != 0 && game.bricks.gt("ee100")) startAmount = startAmount.tetr(upgEffect("k1")).tetr(upgEffect("k1_2"));
+                if (game.upgrades.k3_12 && lastType == "loot") startAmount = startAmount.tetr(upgEffect("k1_1"));
+                lastType = "enemy";
             }
 
             

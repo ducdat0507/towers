@@ -36,3 +36,50 @@ function updateRitualGUI () {
         `;
     }
 }
+
+
+function makeSpellGUI () {
+    let elemspells = document.getElementById("elemspells");
+
+    ritualButtons = {};
+
+    for (let spell in spells) {
+        let data = spells[spell];
+
+        let btn = document.createElement("button");
+        btn.classList.add("upgbtn");
+
+        btn.onclick = () => {
+            let cost = data.cost();
+            if (game.spells[spell] == 0 && game.elemite.gte(cost)) {
+                game.elemite = game.elemite.sub(cost);
+                game.spells[spell] = data.duration;
+                elemitebox.innerHTML = format(game.elemite, 0);
+                updateSpellGUI();
+            }
+        }
+        
+        elemspells.appendChild(btn); 
+        ritualButtons[spell] = btn;
+    }
+
+    updateSpellGUI();
+}
+
+function updateSpellGUI () {
+    for (let spell in spells) {
+        let data = spells[spell];
+        let btn = ritualButtons[spell];
+        
+        btn.innerHTML = `
+            <div>${data.title}</div>
+            <div></div>
+            <div>${data.desc.replace("{DUR}", format(data.duration, 0))}<br/>Cooldown: ${format(data.cooldown, 0)} levels</div>
+            <div>${
+                game.spells[spell] > 0 ? ("<div>Active</div>" + format(game.spells[spell], 0) + " turns") :
+                game.spells[spell] < 0 ? ("<div>On cooldown</div>" + format(-game.spells[spell], 0) + " turns") :
+                ("<div>Inactive - Cost:</div>" + format(data.cost(), 0))
+            }</div>
+        `;
+    }
+}

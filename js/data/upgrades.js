@@ -519,6 +519,16 @@ let upgrades = {
         invSum(x, y) { return EN.sumGeometricSeries(y, 1500000, 1.5, x) },
         effect(x) { return x.div(10); },
     },
+    "m2": {
+        category: "Elemental",
+        title: "The Arts of Elements",
+        desc: "Unlocks the Elemental system, which allows you to cast temporary spells.",
+        req: ["k3_11"],
+        isBool: true,
+        disp(x) { return ""; },
+        costType: "mana",
+        cost(x) { return EN(200000000); },
+    },
     
     "k1": {
         category: "Boosts",
@@ -719,5 +729,25 @@ let upgrades = {
         disp(x) { return ""; },
         costType: "karma",
         cost(x) { return EN(10000000000); },
+    },
+    "k3_11": {
+        category: "Abilities",
+        title: "Karma to Loot to Bricks",
+        desc: "Karma to Loot to Power also affect Bricks.",
+        req: ["k3_9"],
+        isBool: true,
+        disp(x) { return ""; },
+        costType: "karma",
+        cost(x) { return EN(25000000000); },
+    },
+    "k3_12": {
+        category: "Abilities",
+        title: "Karma to Loot to Power II",
+        desc: "Karma to Loot to Bricks also affect enemy growth.",
+        req: ["k3_11"],
+        isBool: true,
+        disp(x) { return ""; },
+        costType: "karma",
+        cost(x) { return EN(250000000000); },
     },
 }

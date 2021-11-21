@@ -41,10 +41,21 @@ let tabs = {
                     </div>
                 `,
             },
+            elem: {
+                title: "The Elemental",
+                content: `
+                    <div id="elemspells" class="upgcategory">
+                        <div>Elemental Spells</div>
+                    </div>
+                `,
+            },
         },
         onshow(subtab) {
+            subtabButtons.elem.style.display = game.upgrades.m2 ? "" : "none";
             if (subtab == "ritual") {
                 makeRitualGUI();
+            } else if (subtab == "elem") {
+                makeSpellGUI();
             }
         }
     },

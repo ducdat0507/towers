@@ -12,6 +12,8 @@ function getStartGame() {
         manaTotal: EN(0),
         karma: EN(0),
         karmaTotal: EN(0),
+        elemite: EN(0),
+        elemiteTotal: EN(0),
 
         tipStage: 0,
         tipShown: true,
@@ -19,6 +21,8 @@ function getStartGame() {
         levelBase: null,
 
         upgrades: {},
+
+        spells: {},
 
         auto: {
             fameUpg: true,
@@ -37,8 +41,12 @@ function getStartGame() {
         }
     }
 
-    for (upg in upgrades) {
+    for (let upg in upgrades) {
         start.upgrades[upg] = upgrades[upg].isBool ? false : EN(0);
+    }
+
+    for (let spell in spells) {
+        start.spells[spell] = 0;
     }
 
     return start;

@@ -96,4 +96,13 @@ let tips = [
             return game.upgrades.f2.gte(999);
         }
     },
+    {
+        title: "Elemental System Unlocked!",
+        desc: "The Elemental system allows you to cast powerful temporary spells with a cost of Elemite, which can be found by getting Loot. These spells can be accessed in the Grimoire tab.",
+        desc2: "(Click this box to dismiss)",
+        disClick: true,
+        req() { 
+            return game.upgrades.m2;
+        }
+    },
 ]

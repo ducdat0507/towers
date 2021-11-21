@@ -51,7 +51,6 @@ function setTab (tab) {
         }
 
         tabcontent.setAttribute("tab", tab);
-        tabcontent.setAttribute("subtab", tabSubtabs[tab]);
     }
 
     if (!currentTab && tab) {
@@ -87,5 +86,6 @@ function setSubtab(subtab, tab) {
     }
     if (tabs[tab].onshow) tabs[tab].onshow(subtab);
 
+    tabcontent.setAttribute("subtab", subtab);
     tabSubtabs[tab] = subtab;
 }

@@ -159,6 +159,26 @@ a:active {
     content: "Karma";
 }
 
+#elemitebox {
+    background: #7f1f1fdf;
+    border-color: #af5f5f;
+    animation: rainbow 20s linear infinite;
+}
+#elemitebox::before {
+    position: absolute;
+    left: 5px;
+    content: "Elemite";
+}
+
+@keyframes rainbow {
+    from { 
+        filter: hue-rotate(0);
+    }
+    to { 
+        filter: hue-rotate(360deg);
+    }
+}
+
 
 .hidden {
     opacity: 0;
@@ -320,15 +340,20 @@ a:active {
     transition: height .3s, margin .3s, padding .3s, border .3s, opacity .3s;
 }
 
-[tab="upgrades"] .upgbtn {
+[tab="upgrades"] .upgbtn  {
     height: 100px;
     padding-bottom: 30px;
+}
+
+[tab="grimoire"][subtab="elem"] .upgbtn {
+    height: 160px;
+    padding-bottom: 46px;
 }
 
 .upgbtn > :first-child {
     font-weight: bold;
 }
-.upgbtn > :nth-child(3) {
+.upgbtn > :nth-child(3), .upgbtn > :nth-child(4) > div {
     font-size: 11px;
 }
 .upgbtn > :nth-child(4) {
