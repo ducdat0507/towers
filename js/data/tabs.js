@@ -22,6 +22,9 @@ let tabs = {
             karma: {
                 title: "Karma",
             },
+            elemite: {
+                title: "Elemite",
+            },
         },
         onshow(subtab) {
             makeUpgGUI(subtab);

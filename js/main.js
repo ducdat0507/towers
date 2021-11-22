@@ -197,7 +197,7 @@ function movePlayer(offset) {
         let oldPoints = EN(game.points);
         game.points = game.points.mul(gain.pow(upgEffect("l3_3")));
         let tetr = upgEffect("k1_1").add(tile[0][1].max(10).slog(10));
-        if (game.spells.fire > 0) tetr = tetr.mul(2);
+        if (game.spells.fire > 0) tetr = tetr.mul(upgEffect("e2"));
         if (game.upgrades.k3_9) game.points = game.points.tetr(tetr);
         game.pointsTotal = game.pointsTotal.add(game.points.sub(oldPoints));
         famebox.innerHTML = format(game.points, 0);
@@ -214,7 +214,7 @@ function movePlayer(offset) {
         if (game.upgrades.k3_10) player[1] = player[1].tetr(upgEffect("k1_1")).tetr(tile[0][1].max(10).slog(10));
         
         if (game.upgrades.m2) {
-            let gain = 1;
+            let gain = upgEffect("e1").mul(upgEffect("m2_2")).mul(upgEffect("k1_4"));
             game.elemite = game.elemite.add(gain);
             game.elemiteTotal = game.elemiteTotal.add(gain);
             elemitebox.innerHTML = format(game.elemite, 0);
@@ -239,7 +239,10 @@ function movePlayer(offset) {
     if (playerFail) {
         addAnimator(function (t) {
             if (!this.gen && t >= 500) {
-                game.level = fixLevel(JSON.parse(JSON.stringify(game.levelBase)));
+                if (offset[0] == 1) {
+                    game.levelBase = makeLevel(game.upgrades.f2.min(upgEffect("k3_2")).toNumber() + 1);
+                    game.level = fixLevel(JSON.parse(JSON.stringify(game.levelBase)));
+                } else game.level = fixLevel(JSON.parse(JSON.stringify(game.levelBase)));
                 this.gen = true;
             }
             t = Math.min(1000, t);
@@ -250,7 +253,7 @@ function movePlayer(offset) {
     } else if (levelCompleted || (game.upgrades.k3 && towerCompleted)) {
         let gain = player[1].pow(upgEffect("f1_2")).mul(upgEffect("f1")).mul(upgEffect("l1")).pow(upgEffect("f1_1")).pow(upgEffect("l1_1")).pow(upgEffect("b1"));
         let tetr = upgEffect("k1");
-        if (game.spells.fire > 0) tetr = tetr.mul(2);
+        if (game.spells.fire > 0) tetr = tetr.mul(upgEffect("e2"));
         if (game.upgrades.k1.gt(0)) gain = EN.tetr(gain, tetr);
 
         if (game.upgrades.l3_6) {
@@ -328,8 +331,8 @@ function movePlayer(offset) {
     }
     
     if (karmaAdd.gt(0)) {
-        karmaAdd = karmaAdd.mul(upgEffect("m1_3"));
-        if (game.spells.earth > 0) karmaAdd = karmaAdd.mul(2);
+        karmaAdd = karmaAdd.mul(upgEffect("m1_3")).mul(upgEffect("e1_2"));
+        if (game.spells.earth > 0) karmaAdd = karmaAdd.mul(upgEffect("e2_2"));
         game.karma = game.karma.add(karmaAdd);
         game.karmaTotal = game.karmaTotal.add(karmaAdd);
         karmabox.innerHTML = format(game.karma, 0);

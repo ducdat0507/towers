@@ -4,7 +4,7 @@ let spells = {
         desc: "Embrace the rage of Fire, making the \"Karma to Power\" and \"Karma to Loot to Fame\" effect to Fame 2× better for the next {DUR} levels.",
         duration: 10,
         cooldown: 10,
-        cost() { return EN(50) },
+        cost() { return EN(50).mul(EN.pow(1.1, game.upgrades.e2)) },
     },
     ice: {
         title: "Spell of Ice",
@@ -18,7 +18,7 @@ let spells = {
         desc: "Absorb the absorb powers of the Earth, making your Karma gain 2× better for the next {DUR} levels.",
         duration: 10,
         cooldown: 10,
-        cost() { return EN(60) },
+        cost() { return EN(60).mul(EN.pow(1.1, game.upgrades.e2_2)) },
     },
     wind: {
         title: "Spell of Wind",
