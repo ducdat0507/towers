@@ -329,6 +329,7 @@ function movePlayer(offset) {
     
     if (karmaAdd.gt(0)) {
         karmaAdd = karmaAdd.mul(upgEffect("m1_3"));
+        if (game.spells.earth > 0) karmaAdd = karmaAdd.mul(2);
         game.karma = game.karma.add(karmaAdd);
         game.karmaTotal = game.karmaTotal.add(karmaAdd);
         karmabox.innerHTML = format(game.karma, 0);
@@ -430,11 +431,30 @@ function hideTip() {
 
 let delta, now;
 let saveTimer = 0;
+let autoTimer = 0;
 
 function gameLoop() {
     let n = Date.now();
     delta = n - now;
     now = n;
+
+    if (game.spells.wind > 0 && game.auto.windElem) {
+        autoTimer += delta;
+        if (autoTimer >= 300) {
+            let pPos = getPlayerPos();
+            if (pPos) {
+                if (getTower(pPos[0]).length <= 1) movePlayer([1, 0]);
+                else {
+                    let tUp = getTile([pPos[0], pPos[1] + 1]);
+                    let tDown = getTile([pPos[0], pPos[1] - 1]);
+                    console.log(tUp, tDown);
+                    if (tDown && (!tUp || tDown[0][1].lt(tUp[0][1]))) movePlayer([0, -1]);
+                    else movePlayer([0, 1]);
+                }
+            }
+            autoTimer = 0;
+        }
+    }
 
     if (canvasDirty) updateCanvas();
     updateAnimator();

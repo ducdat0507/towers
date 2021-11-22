@@ -13,4 +13,18 @@ let spells = {
         cooldown: 10,
         cost() { return EN(40) },
     },
+    earth: {
+        title: "Spell of Earth",
+        desc: "Absorb the absorb powers of the Earth, making your Karma gain 2× better for the next {DUR} levels.",
+        duration: 10,
+        cooldown: 10,
+        cost() { return EN(60) },
+    },
+    wind: {
+        title: "Spell of Wind",
+        desc: "Lean yourself to the Wind, and let the game play itself (badly) for the next {DUR} levels. Can be toggled in the Automation tab, but it'll still be counted when off.",
+        duration: 10,
+        cooldown: 10,
+        cost() { return EN(80) },
+    },
 }

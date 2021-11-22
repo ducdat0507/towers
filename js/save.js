@@ -25,9 +25,6 @@ function getStartGame() {
         spells: {},
 
         auto: {
-            fameUpg: true,
-            lootUpg: true,
-            brickUpg: true,
         },
 
         options: {
@@ -39,6 +36,10 @@ function getStartGame() {
                 right: ["d", "arrowright"],
             }
         }
+    }
+
+    for (let auto in autos) {
+        start.auto[auto] = true;
     }
 
     for (let upg in upgrades) {
