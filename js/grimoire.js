@@ -32,7 +32,7 @@ function updateRitualGUI () {
         btn.innerHTML = `
             <div>${data.title}</div>
             <div></div>
-            <div>+${format(gain, 0)}<br/>Next at ${format(data.inv(gain.add(1)))}</div>
+            <div>+${format(gain, 0)}${gain.gte(1000) ? "" : "<br/>Next at " + format(data.inv(gain.add(1)))}</div>
         `;
     }
 }

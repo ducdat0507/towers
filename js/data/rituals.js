@@ -2,7 +2,7 @@ let rituals = {
     mana: {
         title: "Mana Ritual",
         gain() { return game.points.gte("eee50") ? game.points.max(10).slog(10).pow(1.2).div(3 ** 0.2).mul(upgEffect("k1_3")).mul(upgEffect("e1_1")).floor() : EN(0); },
-        inv(x) { return EN.tetr(10, x.mul(upgEffect("e1_1")).div(upgEffect("k1_3")).mul(3 ** 0.2).root(1.2)).max("eee50"); },
+        inv(x) { return EN.tetr(10, x.div(upgEffect("e1_1")).div(upgEffect("k1_3")).mul(3 ** 0.2).root(1.2)).max("eee50"); },
         onRitual() {
             let gain = this.gain();
             game.mana = game.mana.add(gain);
