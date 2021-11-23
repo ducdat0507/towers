@@ -53,7 +53,7 @@ function makeSpellGUI () {
             let cost = data.cost();
             if (game.spells[spell] == 0 && game.elemite.gte(cost)) {
                 game.elemite = game.elemite.sub(cost);
-                game.spells[spell] = data.duration;
+                game.spells[spell] = data.duration();
                 elemitebox.innerHTML = format(game.elemite, 0);
                 updateSpellGUI();
             }
@@ -74,7 +74,7 @@ function updateSpellGUI () {
         btn.innerHTML = `
             <div>${data.title}</div>
             <div></div>
-            <div>${data.desc.replace("{DUR}", format(data.duration, 0))}<br/>Cooldown: ${format(data.cooldown, 0)} levels</div>
+            <div>${data.desc.replace("{DUR}", format(data.duration(), 0))}<br/>Cooldown: ${format(data.cooldown(), 0)} levels</div>
             <div>${
                 game.spells[spell] > 0 ? ("<div>Active</div>" + format(game.spells[spell], 0) + " turns") :
                 game.spells[spell] < 0 ? ("<div>On cooldown</div>" + format(-game.spells[spell], 0) + " turns") :

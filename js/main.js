@@ -295,7 +295,7 @@ function movePlayer(offset) {
             for (let spell in spells) {
                 if (game.spells[spell] > 0) {
                     game.spells[spell]--;
-                    if (game.spells[spell] <= 0) game.spells[spell] = -spells[spell].cooldown;
+                    if (game.spells[spell] <= 0) game.spells[spell] = -spells[spell].cooldown();
                 } else if (game.spells[spell] < 0) {
                     game.spells[spell]++;
                 }
