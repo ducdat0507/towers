@@ -109,6 +109,8 @@ function makeAddEffect(elem, diff) {
     if (elem.id == "famebox" && game.auto.fameUpg && game.upgrades.k2) buyMaxType("points");
     if (elem.id == "lootbox" && game.auto.lootUpg && game.upgrades.k2_1) buyMaxType("loot");
     if (elem.id == "brickbox" && game.auto.brickUpg && game.upgrades.k2_2) buyMaxType("bricks");
+    if (elem.id == "manabox" && game.auto.manaUpg && game.upgrades.k2_3) buyMaxType("mana");
+    if (elem.id == "karmabox" && game.auto.karmaUpg && game.upgrades.k2_4) buyMaxType("karma");
 
     if (currentTab == "grimoire" && tabSubtabs.grimoire == "ritual") updateRitualGUI();
 }
@@ -214,7 +216,7 @@ function movePlayer(offset) {
         if (game.upgrades.k3_10) player[1] = player[1].tetr(upgEffect("k1_1")).tetr(tile[0][1].max(10).slog(10));
         
         if (game.upgrades.m2) {
-            let gain = upgEffect("e1").mul(upgEffect("m2_2")).mul(upgEffect("k1_4"));
+            let gain = upgEffect("e1").mul(upgEffect("m2_2")).mul(upgEffect("k1_4")).mul(game.misc.elemiteMul);
             game.elemite = game.elemite.add(gain);
             game.elemiteTotal = game.elemiteTotal.add(gain);
             elemitebox.innerHTML = format(game.elemite, 0);
@@ -321,6 +323,13 @@ function movePlayer(offset) {
             let gain = upgEffect("m1_1").mul(game.upgrades.f2.add(1).cbrt());
             if (game.upgrades.m1_4.gt(0)) gain = gain.mul(upgEffect("m1").mul(game.upgrades.f2.add(1).sqrt()).sqrt().mul(upgEffect("m1_4")))
             karmaAdd = karmaAdd.add(gain);
+        }
+        if (game.upgrades.k3_14) {
+            let gain = rituals.mana.gain().div(100);
+            game.mana = game.mana.add(gain);
+            game.manaTotal = game.manaTotal.add(gain);
+            manabox.innerHTML = format(game.mana, 0);
+            makeAddEffect(manabox, "+" + format(gain, 0));
         }
     }
 
@@ -443,7 +452,7 @@ function gameLoop() {
 
     if (game.spells.wind > 0 && game.auto.windElem) {
         autoTimer += delta;
-        if (autoTimer >= 300) {
+        if (autoTimer >= upgEffect("e2_8")) {
             let pPos = getPlayerPos();
             if (pPos) {
                 if (getTower(pPos[0]).length <= 1) movePlayer([1, 0]);

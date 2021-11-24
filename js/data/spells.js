@@ -25,6 +25,6 @@ let spells = {
         desc: "Lean yourself to the Wind, and let the game play itself (badly) for the next {DUR} levels. Can be toggled in the Automation tab, but it'll still be counted when off.",
         duration() { return upgEffect("e2_3"); },
         cooldown() { return upgEffect("e2_7"); },
-        cost() { return EN(80).mul(EN.pow(1.1, game.upgrades.e2_3)).mul(EN.pow(1.2, game.upgrades.e2_7)) },
+        cost() { return EN(80).mul(EN.pow(1.1, game.upgrades.e2_3)).mul(EN.pow(1.2, game.upgrades.e2_7)).mul(EN.pow(1.1, game.upgrades.e2_8)) },
     },
 }

@@ -405,3 +405,8 @@ a:active {
 .key:last-child:active {    
     background: #112211df;
 }
+
+#riftbar {
+    letter-spacing: -.2em;
+    line-height: 1.1em;
+}

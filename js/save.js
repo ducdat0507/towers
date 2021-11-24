@@ -27,6 +27,12 @@ function getStartGame() {
         auto: {
         },
 
+        rift: 0,
+
+        misc: {
+            elemiteMul: EN(1),
+        },
+
         options: {
             worldTheme: "day",
             keys: {

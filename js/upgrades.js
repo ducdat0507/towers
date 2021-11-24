@@ -5,7 +5,9 @@ let upgCategories = {};
 function isUpgPriced(data) {
     return (data.costType != "points" || !game.upgrades.l3_5) && 
         (data.costType != "loot" || !game.upgrades.b4_1) && 
-        (data.costType != "bricks" || !game.upgrades.k3_3);
+        (data.costType != "bricks" || !game.upgrades.k3_3) && 
+        (data.costType != "mana" || !game.upgrades.k3_13) && 
+        (data.costType != "karma" || !game.upgrades.k3_15);
 }
 
 function makeUpgGUI (type) {

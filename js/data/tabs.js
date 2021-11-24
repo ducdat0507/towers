@@ -52,13 +52,32 @@ let tabs = {
                     </div>
                 `,
             },
+            rift: {
+                title: "The Rift",
+                content: `
+                    <div id="riftbar">
+                        ⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿<br/>
+                        ⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿<br/>
+                        ⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿
+                    </div>
+                    <div id="rifttitle" class="title">
+                        The rift is silent.
+                    </div>
+                    <div id="riftdesc" class="subtitle">
+                        Charge the rift by casting spells. The more expensive the spell, the more charge it gives.
+                    </div>
+                `,
+            },
         },
         onshow(subtab) {
             subtabButtons.elem.style.display = game.upgrades.m2 ? "" : "none";
+            subtabButtons.rift.style.display = game.upgrades.e3 ? "" : "none";
             if (subtab == "ritual") {
                 makeRitualGUI();
             } else if (subtab == "elem") {
                 makeSpellGUI();
+            } else if (subtab == "rift") {
+                updateRiftGUI();
             }
         }
     },

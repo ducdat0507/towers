@@ -105,4 +105,13 @@ let tips = [
             return game.upgrades.m2;
         }
     },
+    {
+        title: "The Rift Unlocked!",
+        desc: "⠠⠠⠠⠢⠞⠻⠀⠮⠀⠗⠊⠋⠞⠠⠄<br/>⠠⠠⠠⠞⠗⠁⠝⠎⠉⠢⠙⠀⠔⠞⠕⠀⠁⠀⠓⠊⠣⠻⠀⠸⠺⠠⠄",
+        desc2: "(Click this box to dismiss...?)",
+        disClick: true,
+        req() { 
+            return game.upgrades.e3;
+        }
+    },
 ]
