@@ -248,3 +248,11 @@ function formatWhole(num) {
 function formatSmall(num, precision=2) { 
     return format(num, precision, true)    
 }
+
+function formatTime(ms) {
+    let str = (Math.floor(ms % 60000) / 1000).toString() + " seconds";
+    if (ms > 60000) str = Math.floor(ms / 60000 % 60).toString() + " minutes and " + str;
+    if (ms > 3600000) str = Math.floor(ms / 3600000 % 24).toString() + " hours, " + str;
+    if (ms > 43200000) str = Math.floor(ms / 43200000 % 24).toString() + " days, " + str;
+    return str;
+}

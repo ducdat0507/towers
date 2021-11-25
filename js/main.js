@@ -7,6 +7,8 @@ let touchPos = null;
 let currentRebind = "";
 let currentRebindEvent = null;
 
+let inRiftMode = false;
+
 function init() {
     canvas = document.getElementById("canvas");
     ctx = canvas.getContext("2d", { alpha: false });
@@ -217,6 +219,8 @@ function movePlayer(offset) {
         
         if (game.upgrades.m2) {
             let gain = upgEffect("e1").mul(upgEffect("m2_2")).mul(upgEffect("k1_4")).mul(game.misc.elemiteMul);
+            if (game.upgrades.e1_8) gain = gain.mul(game.mana.max(10).log10().pow(upgEffect("e1_8")));
+            if (game.upgrades.e1_9) gain = gain.mul(game.karma.max(10).log10().pow(upgEffect("e1_9")));
             game.elemite = game.elemite.add(gain);
             game.elemiteTotal = game.elemiteTotal.add(gain);
             elemitebox.innerHTML = format(game.elemite, 0);
@@ -459,7 +463,6 @@ function gameLoop() {
                 else {
                     let tUp = getTile([pPos[0], pPos[1] + 1]);
                     let tDown = getTile([pPos[0], pPos[1] - 1]);
-                    console.log(tUp, tDown);
                     if (tDown && (!tUp || tDown[0][1].lt(tUp[0][1]))) movePlayer([0, -1]);
                     else movePlayer([0, 1]);
                 }
@@ -478,6 +481,8 @@ function gameLoop() {
             showTip();
         }
     }
+
+    if (!inRiftMode) game.playTime += delta;
 
     saveTimer += delta;
     if (saveTimer >= 10000) {

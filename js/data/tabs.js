@@ -55,17 +55,20 @@ let tabs = {
             rift: {
                 title: "The Rift",
                 content: `
-                    <div id="riftbar">
+                    <div><div id="riftbar">
+                        ⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿<br/>
                         ⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿<br/>
                         ⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿<br/>
                         ⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿
-                    </div>
+                    </div></div>
                     <div id="rifttitle" class="title">
                         The rift is silent.
                     </div>
                     <div id="riftdesc" class="subtitle">
                         Charge the rift by casting spells. The more expensive the spell, the more charge it gives.
                     </div>
+                    <br/>
+                    <button id="riftbutton">Enter the rift</button>
                 `,
             },
         },

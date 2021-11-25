@@ -29,6 +29,8 @@ function getStartGame() {
 
         rift: 0,
 
+        playTime: 0,
+
         misc: {
             elemiteMul: EN(1),
         },

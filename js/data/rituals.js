@@ -37,7 +37,7 @@ let rituals = {
     elemite: {
         title: "Elemite Ritual",
         req: ["e3"],
-        gain() { return game.points.gte("10^^e1000") ? game.points.max(10).slog(10).log10().div(999).log10().mul(10) : EN(0); },
+        gain() { return game.points.gte("10^^e1000") ? game.points.max(10).slog(10).log10().div(999).log10().mul(10).pow(upgEffect("e1_3")).mul(upgEffect("e1_4")) : EN(0); },
         gainText(x) { return "×" + format(game.misc.elemiteMul) + " -> ×" + format(game.misc.elemiteMul.add(x)); },
         inv(x) { return "" },
         onRitual() {
@@ -55,6 +55,8 @@ let rituals = {
 
             game.upgrades.b4_3 = game.upgrades.m2 = game.upgrades.m2_1 = game.upgrades.l3_5 = game.upgrades.b4_1 = true;
             game.upgrades.f2_3 = game.upgrades.k1 = game.upgrades.k1_1 = game.upgrades.k1_2 = EN(10);
+            if (game.upgrades.e3_1) game.upgrades.k3_13 = game.upgrades.k2_3 = true;
+            if (game.upgrades.e3_2) game.upgrades.k3_15 = game.upgrades.k2_4 = true;
             game.levelBase = makeLevel(1);
             game.level = fixLevel(JSON.parse(JSON.stringify(game.levelBase)));
 

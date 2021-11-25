@@ -2,6 +2,8 @@ let canvasDirty = true;
 let canvasOffset = [0, 0];
 let canvasUp = 0;
 
+let particles = [];
+
 function updateCanvas() {
     let width = canvas.width = canvas.clientWidth;
     let height = canvas.height = canvas.clientHeight;
@@ -14,6 +16,11 @@ function updateCanvas() {
     ctx.fillStyle = theme.skyFill;
     ctx.fillRect(0, 0, width, height);
 
+    if (inRiftMode) {
+        ctx.fillStyle = "#000000" + Math.min(Math.floor(canvasOffset[1] / 500), 255).toString(16).padStart(2, "0");
+        ctx.fillRect(0, 0, width, height);
+    }
+
     let pPos = getPlayerPos();
     if (!pPos) pPos = [0, 0];
     let ground = Math.floor(Math.max(height * (.75 - canvasUp * .3), 80 * pPos[1] + height * (.5 - canvasUp * .25) + 45) + canvasOffset[1]);
@@ -24,7 +31,7 @@ function updateCanvas() {
     if (lWidth > width) offset = Math.floor((pPos[0] / (game.level.length - 1)) * (width - lWidth + 10) + 90 - canvasOffset[0]);
 
     let x = 0;
-    for (tower of game.level) {
+    if (canvasOffset[1] < 10000) for (tower of game.level) {
         ctx.fillStyle = theme.towerFill;
         ctx.strokeStyle = theme.towerStroke;
         ctx.lineWidth = 3;
@@ -58,6 +65,19 @@ function updateCanvas() {
             }
         }
         x++;
+    }
+
+    if (inRiftMode) {
+        for (let a = 0; a < 5; a++) if (Math.random() <= Math.sqrt(canvasOffset[1]) / 1e3 - 0.1) {
+            particles.push([Math.random() * width, -200, (Math.random() * 10) ** 3 + 2]);
+        }
+        for (pat in particles) {
+            let data = particles[pat];
+            ctx.fillStyle = "#ffffff" + Math.max(Math.floor(256 / (data[2] / 20 + 1)), 0).toString(16).padStart(2, "0");
+            ctx.fillRect(data[0], data[1], data[2] / 25, data[2]);
+            data[1] += data[2] / 2;
+            if (data[1] > height) particles.splice(pat, 1);
+        }
     }
 
     canvasDirty = false;

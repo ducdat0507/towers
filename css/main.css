@@ -19,6 +19,13 @@ body {
     height: 100vh;
     width: 100vw;
 }
+.center {
+    position: absolute;
+    top: 50%;
+    left: calc(50% - 215px);
+    width: 400px;
+    transform: translateY(-50%);
+}
 
 .window, button, ::-webkit-scrollbar-thumb {
     background: #373a3ddf;
@@ -364,6 +371,9 @@ a:active {
     border-radius: 0 0 4px 4px;
 }
 
+.big {
+    font-size: 16px;
+}
 .title {
     margin-top: 25px;
     font-size: 16px;
@@ -409,4 +419,22 @@ a:active {
 #riftbar {
     letter-spacing: -.2em;
     line-height: 1.1em;
+    position: relative;
+    
+    background: #373a3ddf;
+    color: #ffffff;
+    border: 1px solid #848a91;
+    border-radius: 5px;
+    box-shadow: 0 0 10px #0000007f;
+    padding: 2px 4px 4px 2px;
+    margin: 20px auto 0 auto;
+    width: fit-content;
+    text-align: center;
+}
+#riftbar:before {
+    content: "⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿\A⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿\A⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿\A⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿";
+    opacity: .1;
+    white-space: pre;
+    position: absolute;
+    left: 2px; top: 2px;
 }
