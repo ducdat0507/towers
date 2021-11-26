@@ -37,10 +37,10 @@ function makeUpgGUI (type) {
             upglist.appendChild(cat);
         }
 
-        btn.onmousedown = () => {
+        btn.ontouchstart = btn.onmousedown = () => {
             if (game.tipStage >= 6) upgTimeout = setTimeout(() => buyMax(upg), 500)
         }
-        btn.onmouseup = () => {
+        btn.ontouchend = btn.onmouseup = () => {
             clearTimeout(upgTimeout);
         }
         btn.onclick = () => {
