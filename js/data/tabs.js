@@ -142,6 +142,10 @@ let tabs = {
                 content: `
                     <div class="subtitle">(Keyboard only, more control options coming soon)</div>
                     <br/>
+                    <div class="upgcategory" id="touchcontrols">
+                        <div>Touch Controls</div>
+                        <button id="touchscheme">Scheme: Full Swipe</button>
+                    </div>
                     <div class="upgcategory" id="keybindings">
                         <div>Keybindings</div>
                     </div>
@@ -162,68 +166,7 @@ let tabs = {
             },
         },
         onshow(subtab) {
-            if (subtab == "display") {
-                let worldthemediv = document.getElementById("worldthemediv");
-                let btns = {};
-                for (let theme in worldThemes) {
-                    let data = worldThemes[theme];
-                    let btn = document.createElement("button");
-                    btn.innerHTML = data.title;
-
-                    btn.onclick = () => {
-                        btns[game.options.worldTheme].disabled = false;
-                        game.options.worldTheme = theme;
-                        btns[theme].disabled = true;
-                        canvasDirty = true;
-                    }
-
-                    btn.disabled = game.options.worldTheme == theme;
-
-                    worldthemediv.appendChild(btn);
-                    btns[theme] = btn;
-                }
-            } else if (subtab == "control") {
-                let keybindings = document.getElementById("keybindings");
-                let btns = {};
-                for (let key in keyBindNames) {
-                    let name = keyBindNames[key];
-                    let div = document.createElement("div");
-                    
-                    function update() {
-                        div.innerHTML = name + " "
-                        for (let x in game.options.keys[key]) {
-                            let k = game.options.keys[key][x];
-                            let btn = document.createElement("button");
-                            btn.classList.add("key");
-                            btn.innerHTML = getKeyName(k);
-
-                            btn.onclick = () => {
-                                game.options.keys[key].splice(x, 1);
-                                update();
-                            }
-
-                            div.appendChild(btn);
-                        }
-                        let btn = document.createElement("button");
-                        btn.classList.add("key");
-                        btn.innerHTML = "+";
-
-                        btn.onclick = () => {
-                            if (currentRebind) btns[currentRebind].disabled = false;
-                            currentRebind = key;
-                            currentRebindEvent = update;
-                            btn.disabled = true;
-                        }
-
-                        div.appendChild(btn);
-                        btns[key] = btn;
-                    }
-
-                    update();
-
-                    keybindings.appendChild(div);
-                }
-            }
+            makeOptionsGUI(subtab);
         }
     },
 }

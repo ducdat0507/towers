@@ -49,15 +49,35 @@ function init() {
         }
     }
 
-    touchdiv.ontouchstart = (e) => {
+    touchdiv.ontouchstart = /* touchdiv.onmousedown = */ (e) => {
         touchPos = [e.pageX, e.pageY];
+        canvasDirty = true;
     }
-    touchdiv.ontouchend = (e) => {
+    touchdiv.ontouchmove = /* touchdiv.onmousemove = */ (e) => {
+        if (touchPos) {
+            let tPos = [e.pageX - touchPos[0], e.pageY - touchPos[1]];
+            if (game.options.touchScheme == 1 && tPos[0] ** 2 + tPos[1] ** 2 > 2500) {
+                if (Math.abs(tPos[0]) > Math.abs(tPos[1])) movePlayer([Math.sign(tPos[0]), 0]);
+                else movePlayer([0, -Math.sign(tPos[1])]);
+                touchPos = [e.pageX, e.pageY];
+            } else if (game.options.touchScheme == 2) {
+                if (tPos[0] ** 2 + tPos[1] ** 2 > 2500) {
+                    if (Math.abs(tPos[0]) > Math.abs(tPos[1])) dPadDir = [Math.sign(tPos[0]), 0];
+                    else dPadDir = [0, -Math.sign(tPos[1])];
+                } else dPadDir = null;
+                canvasDirty = true;
+            }
+        }
+    }
+    touchdiv.ontouchend = /* touchdiv.onmouseup = */ (e) => {
         let tPos = [e.pageX - touchPos[0], e.pageY - touchPos[1]];
-        if (tPos[0] ** 2 + tPos[1] ** 2 > 100) {
+        if (game.options.touchScheme == 0 && tPos[0] ** 2 + tPos[1] ** 2 > 100) {
             if (Math.abs(tPos[0]) > Math.abs(tPos[1])) movePlayer([Math.sign(tPos[0]), 0]);
             else movePlayer([0, -Math.sign(tPos[1])]);
         }
+        touchPos = null;
+        dPadDir = null;
+        canvasDirty = true;
     }
     
     load();
@@ -448,6 +468,8 @@ function hideTip() {
 let delta, now;
 let saveTimer = 0;
 let autoTimer = 0;
+let dPadDir = null;
+let dPadTimer = 0;
 
 function gameLoop() {
     let n = Date.now();
@@ -468,6 +490,14 @@ function gameLoop() {
                 }
             }
             autoTimer = 0;
+        }
+    }
+
+    if (dPadDir) {
+        dPadTimer += delta;
+        if (dPadTimer >= 200) {
+            movePlayer(dPadDir);
+            dPadTimer = 0;
         }
     }
 

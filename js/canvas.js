@@ -67,14 +67,40 @@ function updateCanvas() {
         x++;
     }
 
+    if (touchPos && game.options.touchScheme == 2) {
+        ctx.fillStyle = theme.dPadFill;
+        ctx.strokeStyle = theme.dPadStroke;
+        ctx.lineWidth = 2;
+        ctx.beginPath();
+        ctx.arc(touchPos[0], touchPos[1], 100, 0, 2 * Math.PI);
+        ctx.fill();
+        ctx.stroke();
+        ctx.fillStyle = theme.dPadStroke;
+        if (dPadDir) {
+            let ang = 0;
+            if (dPadDir[0] == 1) ang = -Math.PI / 9;
+            else if (dPadDir[0] == -1) ang = Math.PI * 8 / 9;
+            else if (dPadDir[1] == 1) ang = Math.PI * -5.5 / 9;
+            else if (dPadDir[1] == -1) ang = Math.PI * 3.5 / 9;
+            ctx.beginPath();
+            ctx.moveTo(touchPos[0], touchPos[1]);
+            ctx.arc(touchPos[0], touchPos[1], 100, ang, ang + Math.PI / 4.5);
+            ctx.fill();
+        } else {
+            ctx.beginPath();
+            ctx.arc(touchPos[0], touchPos[1], 40, 0, 2 * Math.PI);
+            ctx.fill();
+        }
+    }
+
     if (inRiftMode) {
         for (let a = 0; a < 5; a++) if (Math.random() <= Math.sqrt(canvasOffset[1]) / 1e3 - 0.1) {
-            particles.push([Math.random() * width, -200, (Math.random() * 10) ** 3 + 2]);
+            particles.push([Math.random() * width, -200, (Math.random() * 20) ** 3 + 2]);
         }
         for (pat in particles) {
             let data = particles[pat];
             ctx.fillStyle = "#ffffff" + Math.max(Math.floor(256 / (data[2] / 20 + 1)), 0).toString(16).padStart(2, "0");
-            ctx.fillRect(data[0], data[1], data[2] / 25, data[2]);
+            ctx.fillRect(data[0], data[1], data[2] / 12, data[2]);
             data[1] += data[2] / 2;
             if (data[1] > height) particles.splice(pat, 1);
         }

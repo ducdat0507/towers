@@ -7,6 +7,7 @@ let keyAltNames = {
     arrowdown: "▼",
     arrowleft: "◄",
     arrowright: "►",
+    " ": "SPACE",
 }
 
 let keyBindNames = {

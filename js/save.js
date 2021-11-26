@@ -37,6 +37,8 @@ function getStartGame() {
 
         options: {
             worldTheme: "day",
+
+            touchScheme: 0,
             keys: {
                 up: ["w", "arrowup"],
                 down: ["s", "arrowdown"],

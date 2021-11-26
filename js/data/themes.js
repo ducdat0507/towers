@@ -18,6 +18,9 @@ let worldThemes = {
         lootFill: "#ffff1f",
         lootStroke: "#ffff7f",
         lootText: "#000000",
+
+        dPadFill: "#0000007f",
+        dPadStroke: "#ffffff7f",
     },
     night: {
         title: "Night",
@@ -38,6 +41,9 @@ let worldThemes = {
         lootFill: "#7f7f0f",
         lootStroke: "#4f4f0f",
         lootText: "#ffffff",
+        
+        dPadFill: "#ffffff7f",
+        dPadStroke: "#0000007f",
     },
     flat: {
         title: "Flat",
@@ -58,6 +64,9 @@ let worldThemes = {
         lootFill: "yellow",
         lootStroke: "#00000000",
         lootText: "#000000",
+        
+        dPadFill: "#0000007f",
+        dPadStroke: "#ffffff7f",
     },
     trans: {
         title: "Transcendance",
@@ -78,5 +87,8 @@ let worldThemes = {
         lootFill: "#ffff1f",
         lootStroke: "#ffff7f",
         lootText: "#000000",
+        
+        dPadFill: "#7f7f7f7f",
+        dPadStroke: "#ffffff7f",
     },
 }
