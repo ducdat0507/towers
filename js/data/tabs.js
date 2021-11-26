@@ -140,8 +140,6 @@ let tabs = {
             control: {
                 title: "Controls",
                 content: `
-                    <div class="subtitle">(Keyboard only, more control options coming soon)</div>
-                    <br/>
                     <div class="upgcategory" id="touchcontrols">
                         <div>Touch Controls</div>
                         <button id="touchscheme">Scheme: Full Swipe</button>
