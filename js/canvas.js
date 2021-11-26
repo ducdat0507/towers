@@ -99,7 +99,7 @@ function updateCanvas() {
         }
         for (pat in particles) {
             let data = particles[pat];
-            ctx.fillStyle = "#ffffff" + Math.max(Math.floor(256 / (data[2] / 20 + 1)), 0).toString(16).padStart(2, "0");
+            ctx.fillStyle = "#ffffff" + Math.max(Math.floor(256 / (data[2] / 50 + 1)), 0).toString(16).padStart(2, "0");
             ctx.fillRect(data[0], data[1], data[2] / 12, data[2]);
             data[1] += data[2] / 2;
             if (data[1] > height) particles.splice(pat, 1);
