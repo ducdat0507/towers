@@ -150,61 +150,61 @@ function format(num, precision=2, small=false) {
         let m = 10**(bottom-Math.floor(bottom))
         let e = Math.floor(bottom)
         let p = bottom < 1000 ? precision2 : precision2 - Math.floor(Math.log10(bottom)) + 2;
-        return "e".repeat(rep) + regularFormat(m, p) + "e" + commaFormat(e)
+        return "ᴇ".repeat(rep) + regularFormat(m, p) + "ᴇ" + commaFormat(e)
     }
     else if (num.lt("10^^1000000000")) { // 1F5 ~ F1,000,000
         let pol = polarize(array)
         let p = pol.top < 1000 ? precision3 : precision3 - Math.floor(Math.log10(pol.top)) + 2;
-        return regularFormat(pol.bottom, p) + "F" + commaFormat(pol.top)
+        return regularFormat(pol.bottom, p) + "ꜰ" + commaFormat(pol.top)
     }
     else if (num.lt("10^^^5")) { // F1,000,000 ~ 1G5
         let rep = arraySearch(array, 2)
         if (rep >= 1) {
             setToZero(array, 2)
-            return "F".repeat(rep) + format(array, precision)
+            return "ꜰ".repeat(rep) + format(array, precision)
         }
         let n = arraySearch(array, 1) + 1
         if (num.gte("10^^" + (n + 1))) n += 1
-        return "F" + format(n, precision)
+        return "ꜰ" + format(n, precision)
     }
     else if (num.lt("10^^^1000000")) { // 1G5 ~ G1,000,000
         let pol = polarize(array)
-        return regularFormat(pol.bottom, precision3) + "G" + commaFormat(pol.top)
+        return regularFormat(pol.bottom, precision3) + "ɢ" + commaFormat(pol.top)
     }
     else if (num.lt("10^^^^5")) { // G1,000,000 ~ 1H5
         let rep = arraySearch(array, 3)
         if (rep >= 1) {
             setToZero(array, 3)
-            return "G".repeat(rep) + format(array, precision)
+            return "ɢ".repeat(rep) + format(array, precision)
         }
         let n = arraySearch(array, 2) + 1
         if (num.gte("10^^^" + (n + 1))) n += 1
-        return "G" + format(n, precision)
+        return "ɢ" + format(n, precision)
     }
     else if (num.lt("10^^^^1000000")) { // 1H5 ~ H1,000,000
         let pol = polarize(array)
-        return regularFormat(pol.bottom, precision3) + "H" + commaFormat(pol.top)
+        return regularFormat(pol.bottom, precision3) + "ʜ" + commaFormat(pol.top)
     }
     else if (num.lt("10^^^^^5")) { // H1,000,000 ~ 5J4
         let rep = arraySearch(array, 4)
         if (rep >= 1) {
             setToZero(array, 4)
-            return "H".repeat(rep) + format(array, precision)
+            return "ʜ".repeat(rep) + format(array, precision)
         }
         let n = arraySearch(array, 3) + 1
         if (num.gte("10^^^^" + (n + 1))) n += 1
-        return "H" + format(n, precision)
+        return "ʜ" + format(n, precision)
     }
     else if (num.lt("J1000000")) { // 5J4 ~ J1,000,000
         let pol = polarize(array, true)
-        return regularFormat(Math.log10(pol.bottom) + pol.top, precision4) + "J" + commaFormat(pol.height)
+        return regularFormat(Math.log10(pol.bottom) + pol.top, precision4) + "ᴊ" + commaFormat(pol.height)
     }
     else if (num.lt("J^4 10")) { // J1,000,000 ~ 1K5
         let rep = num.layer
-        if (rep >= 1) return "J".repeat(rep) + format(array, precision)
+        if (rep >= 1) return "ᴊ".repeat(rep) + format(array, precision)
         let n = array[array.length-1][0]
-        if (num.gte("J" + (n + 1))) n += 1
-        return "J" + format(n, precision)
+        if (num.gte("ᴊ" + (n + 1))) n += 1
+        return "ᴊ" + format(n, precision)
     }
     else if (num.lt("J^999999 10")) { // 1K5 ~ K1,000,000
         // https://googology.wikia.org/wiki/User_blog:PsiCubed2/Letter_Notation_Part_II
@@ -233,12 +233,12 @@ function format(num, precision=2, small=false) {
             topJ = 1 + Math.log10(Math.log10(bottom) + top)
             layer += 2
         }
-        return regularFormat(topJ, precision4) + "K" + commaFormat(layer)
+        return regularFormat(topJ, precision4) + "ᴋ" + commaFormat(layer)
     }
     // K1,000,000 and beyond
     let n = num.layer + 1
-    if (num.gte("J^" + n + " 10")) n += 1
-    return "K" + format(n, precision)
+    if (num.gte("ᴊ^" + n + " 10")) n += 1
+    return "ᴋ" + format(n, precision)
 }
 
 function formatWhole(num) {
